@@ -1,0 +1,113 @@
+   01 Livestock and livestock products
+   02 Other agricultural products
+   03 Forestry and fishery products
+   04 Agricultural, forestry, and fishery services
+05+06 Metallic ores mining
+   07 Coal mining
+   08 Crude petroleum and natural gas
+09+10 Nonmetallic minerals mining
+   11 New construction
+   12 Maintenance and repair construction
+   13 Ordnance and accessories
+   14 Food and kindred products
+   15 Tobacco products
+   16 Broad and narrow fabrics, yarn and thread mills
+   17 Miscellaneous textile goods and floor coverings
+   18 Apparel
+   19 Miscellaneous fabricated textile products
+20+21 Lumber and wood products
+22+23 Furniture and fixtures
+   24 Paper and allied products, except containers
+   25 Paperboard containers and boxes
+  26A Newspapers and periodicals
+  26B Other printing and publishing
+  27A Industrial and other chemicals
+  27B Agricultural fertilizers and chemicals
+   28 Plastics and synthetic materials
+  29A Drugs
+  29B Cleaning and toilet preparations
+   30 Paints and allied products
+   31 Petroleum refining and related products
+   32 Rubber and miscellaneous plastics products
+33+34 Footwear, leather, and leather products
+   35 Glass and glass products
+   36 Stone and clay products
+   37 Primary iron and steel manufacturing
+   38 Primary nonferrous metals manufacturing
+   39 Metal containers
+   40 Heating, plumbing, and fabricated structural metal products
+   41 Screw machine products and stampings
+   42 Other fabricated metal products
+   43 Engines and turbines
+44+45 Farm, construction, and mining machinery
+   46 Materials handling machinery and equipment
+   47 Metalworking machinery and equipment
+   48 Special industry machinery and equipment
+   49 General industrial machinery and equipment
+   50 Miscellaneous machinery, except electrical
+   51 Computer and office equipment
+   52 Service industry machinery
+   53 Electrical industrial equipment and apparatus
+   54 Household appliances
+   55 Electric lighting and wiring equipment
+   56 Audio, video, and communication equipment
+   57 Electronic components and accessories
+   58 Miscellaneous electrical machinery and supplies
+  59A Motor vehicles (passenger cars and trucks)
+  59B Truck and bus bodies, trailers, and motor vehicles parts
+   60 Aircraft and parts
+   61 Other transportation equipment
+   62 Scientific and controlling instruments
+   63 Ophthalmic and photographic equipment
+   64 Miscellaneous manufacturing
+  65A Railroads and related services; passenger ground transportation
+  65B Motor freight transportation and warehousing
+  65C Water transportation
+  65D Air transportation
+  65E Pipelines, freight forwarders, and related services
+   66 Communications, except radio and TV
+   67 Radio and TV broadcasting
+  68A Electric services (utilities)
+  68B Gas production and distribution (utilities)
+  68C Water and sanitary services
+  69A Wholesale trade
+  69B Retail trade
+  70A Finance
+  70B Insurance
+  71A Owner-occupied dwellings
+  71B Real estate and royalties
+  72A Hotels and lodging places
+  72B Personal and repair services (except auto)
+  73A Computer and data processing services
+  73B Legal, engineering, accounting, and related services
+  73C Other business and professional services, except medical
+  73D Advertising
+   74 Eating and drinking places
+   75 Automotive repair and services
+   76 Amusements
+  77A Health services
+  77B Educational and social services, and membership organizations
+   78 Federal Government enterprises
+   79 State and local government enterprises
+   80 Noncomparable imports
+   81 Scrap, used and secondhand goods
+   82 General government industry
+   83 Rest of the world adjustment to final uses
+   84 Household industry
+   85 Inventory valuation adjustment
+   88 Compensation of employees
+   89 Indirect business tax and nontax liability
+   90 Other value added
+   91 Personal consumption expenditures
+   92 Gross private fixed investment
+   93 Change in business inventories
+   94 Exports of goods and services
+   95 Imports of goods and services
+  96C Federal Government consumption expenditures: National defense
+  96I Federal Government gross investment: National defense
+  97C Federal Government consumption expenditures: Nondefense
+  97I Federal Government gross investment: Nondefense
+  98C State and local government consumption expenditures: Education
+  98I State and local government gross investment: Education
+  99C State and local government consumption expenditures: Other
+  99I State and local government gross investment: Other

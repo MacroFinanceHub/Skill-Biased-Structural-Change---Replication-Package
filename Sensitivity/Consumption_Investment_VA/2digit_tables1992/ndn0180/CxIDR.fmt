@@ -1,0 +1,24 @@
+CxIDR.fmt                                   November 1, 1997
+
+
+File layout for CxIDR.txt, 
+Table 3.--Commodity-by-Industry Direct Requirements
+
+----------------------------------------
+    Field            Description
+----------------------------------------
+     1            Commodity I-O code
+
+     2            Industry I-O code
+
+     3            Table reference number (3); includes SURVEY
+                  tables 3.1 and 3.2
+
+     4            Direct requirements coefficients.  These 
+                  values show the amount of the commodity
+                  required to produce one dollar of the
+                  industry's output.  The coefficients are
+                  derived from the use table (the commodity 
+                  input divided by the total industry output).
+                  Coefficients are shown to seven decimal 
+                  places.

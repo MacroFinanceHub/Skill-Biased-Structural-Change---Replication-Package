@@ -1,0 +1,28 @@
+
+
+
+
+TBL9-87.FMT                                      April 30, 1994
+
+File layout for TBL9-87.DAT, Table 9.--Total Industry Output Multiplier
+   ------------------------------------------------------------
+          Column        Description
+   ------------------------------------------------------------
+         1 - 5    Industry I-O code
+
+        13 -13    Table reference number (8)
+
+        17 -25    Total industry output multiplier.  Values are the column
+                  sums of the data on the commodity-by-industry total
+                  requirements table.  The valuesshow the total output
+                  required by all industries, both directly and indirectly,
+                  for each dollar of final use.  
+     ------------------------------------------------------------
+
+
+
+
+
+
+
+

@@ -1,0 +1,846 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology/WorldKLEMS/Table7_row_i.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}28 Dec 2020, 11:29:14
+{txt}
+{com}. 
+. *Choose the time period
+. global Initial_Year 1977
+{txt}
+{com}. global Final_Year   2005
+{txt}
+{com}. global age_groups "Age1 Age2 Age3 Age4 Age5 Age6 Age7 Age8"
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * STEP 1: Pull the data, merge, and clean files
+. 
+. * Pull the data from the bridged WorldKLEMS Files
+. * See note 1 in the bottom of this code to see why we use bridged data
+. 
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use      dta_files/comp_bridged.dta
+{txt}
+{com}. keep     Year Industry Sex Class Education Age wage_bridged
+{txt}
+{com}. rename   wage_bridged wage
+{res}{txt}
+{com}. egen     id = concat(Year Industry Class Sex Education Age), punct("_")
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: contains nonnumeric characters; no {res}replace
+{txt}
+{com}. save     dta_files/WK_2013_COMP.dta, replace
+{txt}(note: file dta_files/WK_2013_COMP.dta not found)
+file dta_files/WK_2013_COMP.dta saved
+
+{com}. 
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use      dta_files/emp_bridged.dta
+{txt}
+{com}. keep     Year Industry Sex Class Education Age Emp_bridged
+{txt}
+{com}. rename   Emp_bridged emp
+{res}{txt}
+{com}. egen     id = concat(Year Industry Class Sex Education Age), punct("_")
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: contains nonnumeric characters; no {res}replace
+{txt}
+{com}. save     dta_files/WK_2013_EMP.dta, replace
+{txt}(note: file dta_files/WK_2013_EMP.dta not found)
+file dta_files/WK_2013_EMP.dta saved
+
+{com}. 
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use      dta_files/h_emp_bridged.dta
+{txt}
+{com}. keep     Year Industry Sex Class Education Age avg_hours_bridged
+{txt}
+{com}. egen     id = concat(Year Industry Class Sex Education Age), punct("_")
+{txt}
+{com}. rename   avg_hours_bridged avg_hours
+{res}{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: contains nonnumeric characters; no {res}replace
+{txt}
+{com}. 
+. merge m:m id using dta_files/WK_2013_COMP.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}         380,928{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. merge m:m id using dta_files/WK_2013_EMP.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}         380,928{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. sort  Year Industry Sex Class Education Age id
+{txt}
+{com}. 
+. rm dta_files/WK_2013_COMP.dta
+{txt}
+{com}. rm dta_files/WK_2013_EMP.dta
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *Generate Annual Compensation by Age group
+. 
+. drop id 
+{txt}
+{com}. egen     id = concat(Year Industry Class Sex Education)
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: all characters numeric; {res}replaced {txt}as {res}long
+{txt}
+{com}. 
+. reshape wide avg_hours wage emp, i(id) j(Age)
+{txt}(note: j = 1 2 3 4 5 6 7 8)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}  380928   {txt}->{res}   47616
+{txt}Number of variables            {res}      10   {txt}->{res}      30
+{txt}j variable (8 values)               {res}Age   {txt}->   (dropped)
+xij variables:
+                              {res}avg_hours   {txt}->   {res}avg_hours1 avg_hours2 ... avg_hours8
+                                   wage   {txt}->   {res}wage1 wage2 ... wage8
+                                    emp   {txt}->   {res}emp1 emp2 ... emp8
+{txt}{hline 77}
+
+{com}. 
+. foreach i of num 1/8 {c -(}
+{txt}  2{com}. rename avg_hours`i' avg_hours_Age`i'
+{txt}  3{com}. rename emp`i'       emp_Age`i'
+{txt}  4{com}. rename wage`i'      wage_Age`i'
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. order id Year Industry Sex Class Education emp_Age* avg_hours_Age* wage_Age* 
+{txt}
+{com}. 
+.  foreach age of global age_groups {c -(}
+{txt}  2{com}.         gen comp_`age'   = (  wage_`age' )*( avg_hours_`age')*( emp_`age' )*52
+{txt}  3{com}.         gen tot_h_`age'  = ( avg_hours_`age' )*(  emp_`age' )*52
+{txt}  4{com}. {c )-}
+{txt}
+{com}. 
+. keep Year Industry Sex Class Education comp_* emp_*  tot_h_*                                                                      
+{txt}
+{com}. drop if Year == 19922 | Year == 20022 | Year == 20032                                                                                                                                             
+{txt}(0 observations deleted)
+
+{com}. sort Year Industry 
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Define the Skill Groups
+. * High Skill (College Complete or More)
+. gen     skill_group = 1 if Education   >= 5
+{txt}(31,744 missing values generated)
+
+{com}. 
+. * Low Skill
+. replace skill_group = 2 if Education   < 5
+{txt}(31,744 real changes made)
+
+{com}. 
+. label define labor_skill_labels 1 "HS_Labor" 2 "LS_Labor" 
+{txt}
+{com}. label values skill_group labor_skill_labels
+{txt}
+{com}. 
+. order Year Industry Sex Class Education skill_group
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *STEP 2: Generate the Fixed Employment Weights Used in KM's Methodology
+. preserve
+{txt}
+{com}. collapse (sum) comp_Age*  emp_Age* tot_h_Age* (last) skill_group, by(Year Sex Class Education)
+{txt}
+{com}. 
+. keep if Year >= $Initial_Year & Year <= $Final_Year 
+{txt}(840 observations deleted)
+
+{com}. drop if Class == 2
+{txt}(348 observations deleted)
+
+{com}. drop Class
+{txt}
+{com}.  
+. foreach i of num 1/8 {c -(}
+{txt}  2{com}. by Year:  egen      cum_hours_Age`i'  = total(tot_h_Age`i')
+{txt}  3{com}. {c )-}
+{txt}
+{com}. 
+. gen cum_hours = cum_hours_Age1 + cum_hours_Age2 + cum_hours_Age3 + cum_hours_Age4 + cum_hours_Age5 + cum_hours_Age6 + cum_hours_Age7 + cum_hours_Age8
+{txt}
+{com}. drop cum_hours_Age*
+{txt}
+{com}. 
+. foreach i of num 1/8 {c -(}
+{txt}  2{com}. gen share_h_Age`i' = tot_h_Age`i'/cum_hours 
+{txt}  3{com}. {c )-}
+{txt}
+{com}. 
+. *Generate Fixed Weights
+. collapse (mean) share_h_* , by(Sex Education)  
+{txt}
+{com}. 
+. *gen check = share_h_Age1 + share_h_Age2 + share_h_Age3 + share_h_Age4 + share_h_Age5 + share_h_Age6 + share_h_Age7 + share_h_Age8
+. *egen sum_check = total(check)
+. 
+. rename share_h_*  fixed_weights_*
+{res}{txt}
+{com}. save   dta_files/fixed_weights_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}file dta_files/fixed_weights_1977_2005.dta saved
+
+{com}. restore
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Build the Wage Premium Following KM's Methodology
+. * See Note 2 in the bottom of the code
+. 
+. preserve
+{txt}
+{com}. keep if Year >= $Initial_Year & Year <= $Final_Year 
+{txt}(26,040 observations deleted)
+
+{com}. drop if Class == 2
+{txt}(10,788 observations deleted)
+
+{com}. drop Class
+{txt}
+{com}. 
+. collapse (sum) comp_* tot_h*, by(Year Sex Education)
+{txt}
+{com}. 
+. foreach i of num 3/8 {c -(}
+{txt}  2{com}. gen                 w_Age`i'        = (comp_Age`i'/tot_h_Age`i') 
+{txt}  3{com}. by Year Sex: gen  w_HS_Age`i'       = w_Age`i' if Education == 5
+{txt}  4{com}. by Year Sex: gen  w_LS_Age`i'       = w_Age`i' if Education == 3
+{txt}  5{com}. by Year Sex: egen w_HS_Age`i'_prime = max(w_HS_Age`i')
+{txt}  6{com}. by Year Sex: egen w_LS_Age`i'_prime = max(w_LS_Age`i')
+{txt}  7{com}. {c )-}
+{txt}(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+
+{com}. 
+. foreach i of num 3/8 {c -(}
+{txt}  2{com}. drop w_HS_Age`i' 
+{txt}  3{com}. rename w_HS_Age`i'_prime w_HS_Age`i'
+{txt}  4{com}. {c )-}
+{res}{txt}
+{com}. 
+. sort Year Sex Education
+{txt}
+{com}. foreach i of num 3/8 {c -(}
+{txt}  2{com}. gen w_prem_Age`i' = (w_HS_Age`i'/w_LS_Age`i')
+{txt}  3{com}. {c )-}
+{txt}(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+(290 missing values generated)
+
+{com}. 
+. merge m:m Sex Education using dta_files/fixed_weights_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             348{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. sort Year Sex Education
+{txt}
+{com}. drop _merge
+{txt}
+{com}. 
+. collapse (sum) fixed_weights_* (max) w_prem_*, by(Year Sex)
+{txt}
+{com}. 
+. gen w_prem            = 0
+{txt}
+{com}. gen cum_fixed_weights = 0
+{txt}
+{com}. foreach i of num 3/8 {c -(}
+{txt}  2{com}. replace w_prem  = w_prem + (fixed_weights_Age`i')*(w_prem_Age`i')
+{txt}  3{com}. replace cum_fixed_weights  = cum_fixed_weights + fixed_weights_Age`i'
+{txt}  4{com}. {c )-}
+{txt}(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+(58 real changes made)
+
+{com}. 
+. collapse (sum) w_prem cum_fixed_weights, by(Year)
+{txt}
+{com}. save   dta_files/wage_premium_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}file dta_files/wage_premium_KM_1977_2005.dta saved
+
+{com}. sort Year
+{txt}
+{com}. restore
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Generate the Wage Index Used in the KM Methodology to Compute Efficiency Units
+. preserve
+{txt}
+{com}. keep if Year >= $Initial_Year & Year <= $Final_Year 
+{txt}(26,040 observations deleted)
+
+{com}. drop if Class == 2
+{txt}(10,788 observations deleted)
+
+{com}. drop Class
+{txt}
+{com}. 
+. foreach i of num 1/8 {c -(}
+{txt}  2{com}. gen     w_Age`i'  = (comp_Age`i'/tot_h_Age`i') 
+{txt}  3{com}. {c )-}
+{txt}(9,708 missing values generated)
+(3,614 missing values generated)
+
+{com}. 
+. sort Year Industry Sex Education
+{txt}
+{com}. merge m:m Sex Education using dta_files/fixed_weights_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}          10,788{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. gen wage_index = 0
+{txt}
+{com}. gen cum_fixed_weights = 0
+{txt}
+{com}. foreach i of num 1/8 {c -(}
+{txt}  2{com}. replace w_Age`i' = 0 if w_Age`i' == .
+{txt}  3{com}. replace wage_index  = wage_index + (fixed_weights_Age`i')*(w_Age`i')
+{txt}  4{com}. replace cum_fixed_weights  = cum_fixed_weights + fixed_weights_Age`i'
+{txt}  5{com}. {c )-}
+{txt}(9,708 real changes made)
+(1,080 real changes made)
+(10,788 real changes made)
+(3,614 real changes made)
+(7,100 real changes made)
+(10,788 real changes made)
+(0 real changes made)
+(10,788 real changes made)
+(10,788 real changes made)
+(0 real changes made)
+(10,788 real changes made)
+(10,788 real changes made)
+(0 real changes made)
+(10,788 real changes made)
+(10,788 real changes made)
+(0 real changes made)
+(10,788 real changes made)
+(10,788 real changes made)
+(0 real changes made)
+(10,776 real changes made)
+(10,788 real changes made)
+(0 real changes made)
+(10,788 real changes made)
+(10,788 real changes made)
+
+{com}. 
+. 
+. collapse (sum) wage_index cum_fixed_weights, by(Year skill_group)
+{txt}
+{com}. replace wage_index = wage_index/cum_fixed_weights
+{txt}(58 real changes made)
+
+{com}. drop cum_fixed_weights
+{txt}
+{com}. reshape wide wage_index, i(Year) j(skill_group) 
+{txt}(note: j = 1 2)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      58   {txt}->{res}      29
+{txt}Number of variables            {res}       3   {txt}->{res}       3
+{txt}j variable (2 values)       {res}skill_group   {txt}->   (dropped)
+xij variables:
+                             {res}wage_index   {txt}->   {res}wage_index1 wage_index2
+{txt}{hline 77}
+
+{com}. rename wage_index1 w_index_HS
+{res}{txt}
+{com}. rename wage_index2 w_index_LS
+{res}{txt}
+{com}. gen    wage_premium_KM = w_index_HS/w_index_LS
+{txt}
+{com}. 
+. save   dta_files/wage_index_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}file dta_files/wage_index_KM_1977_2005.dta saved
+
+{com}. restore
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *Generate the Weights to Transform Hours Into Efficiency Units Under the KM Methodology
+. preserve
+{txt}
+{com}. keep if Year >= $Initial_Year & Year <= $Final_Year 
+{txt}(26,040 observations deleted)
+
+{com}. drop if Class == 2
+{txt}(10,788 observations deleted)
+
+{com}. drop Class
+{txt}
+{com}. 
+. foreach i of num 1/8 {c -(}
+{txt}  2{com}. gen     w_Age`i'  = (comp_Age`i'/tot_h_Age`i')
+{txt}  3{com}. replace w_Age`i'  = 0 if w_Age`i' == . 
+{txt}  4{com}. {c )-}
+{txt}(9,708 missing values generated)
+(9,708 real changes made)
+(3,614 missing values generated)
+(3,614 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+
+{com}. merge m:m Year using dta_files/wage_index_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}          10,788{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. gen     wage_index = w_index_HS if skill_group == 1
+{txt}(7,192 missing values generated)
+
+{com}. replace wage_index = w_index_LS if skill_group == 2
+{txt}(7,192 real changes made)
+
+{com}. 
+. foreach i of num 1/8 {c -(}
+{txt}  2{com}. gen eff_weight_Age`i' = w_Age`i'/wage_index 
+{txt}  3{com}. {c )-}
+{txt}
+{com}. 
+. collapse (mean) eff_weight_Age*, by(Sex Education)
+{txt}
+{com}. save   dta_files/eff_weights_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}file dta_files/eff_weights_KM_1977_2005.dta saved
+
+{com}. restore
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. keep if Year >= $Initial_Year & Year <= $Final_Year 
+{txt}(26,040 observations deleted)
+
+{com}. drop if Class == 2
+{txt}(10,788 observations deleted)
+
+{com}. drop Class
+{txt}
+{com}. 
+. merge m:m Sex Education using dta_files/eff_weights_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}          10,788{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. merge m:m Year using dta_files/wage_premium_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}          10,788{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. sort Year Industry Sex Education
+{txt}
+{com}. 
+. replace tot_h_Age1 = 0 if tot_h_Age1 == . 
+{txt}(0 real changes made)
+
+{com}. replace tot_h_Age2 = 0 if tot_h_Age2 == . 
+{txt}(0 real changes made)
+
+{com}. gen eff_KM = tot_h_Age1*eff_weight_Age1 + tot_h_Age2*eff_weight_Age2 + tot_h_Age3*eff_weight_Age3 ///
+>            + tot_h_Age4*eff_weight_Age4 + tot_h_Age5*eff_weight_Age5 + tot_h_Age6*eff_weight_Age6 ///
+>            + tot_h_Age7*eff_weight_Age7 + tot_h_Age8*eff_weight_Age8 
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *STEP 3: Define the Low and High-Skill Sectors
+. gen     sector = 1 if Industry == 28 | Industry == 29 | Industry == 26 | Industry == 24 
+{txt}(9,396 missing values generated)
+
+{com}. replace sector = 2 if sector == .
+{txt}(9,396 real changes made)
+
+{com}.  
+. *Including Real Estate
+. *gen    sector  = 1 if Industry == 28 | Industry == 29 | Industry == 26 | Industry == 24 | Industry == 25
+. *replace sector = 2 if sector == .
+. 
+. *Including Real Estate and Chemicals
+. *gen    sector  = 1 if Industry == 28 | Industry == 29 | Industry == 26 | Industry == 24 | Industry == 25 | Industry == 8       
+. *replace sector = 2 if sector == .
+. 
+. *Including Real Estate, Chemicals, Electrical and Optical Equipment, and Public Administration
+. *gen    sector  = 1 if Industry == 28 | Industry == 29 | Industry == 26 | Industry == 24 | Industry == 25 | Industry == 8 | Industry == 13 | Industry == 27
+. *replace sector = 2 if sector == .
+.         
+. label define sector_skill_labels 1 "HS Sector" 2 "LS Sector"
+{txt}
+{com}. label values sector sector_skill_labels 
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *STEP 4: Put the Data Together
+. 
+. collapse (sum) eff_KM, by(Year sector skill_group)
+{txt}
+{com}. replace eff_KM = eff_KM/1000000 
+{txt}(116 real changes made)
+
+{com}. 
+. merge m:m Year using dta_files/wage_premium_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             116{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop cum_fixed_weights _merge
+{txt}
+{com}. 
+. rename w_prem wage_premium_KM
+{res}{txt}
+{com}. 
+. *At this Point Data can be Downloaded to Compute Demand Shifts in Excel
+. *We do that in the spreadhseet Dem_shift_calculations_with_data.xlsx, but also we compute them below
+. *Notice that until here labor quantities are expressed into equivalent HS and LS 
+. *efficiency units. To do the shift-share analysis they must be expressed into equivalent
+. *HS or LS efficiency units
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. keep if Year >= $Initial_Year & Year <= $Final_Year 
+{txt}(0 observations deleted)
+
+{com}. keep Year skill_group sector eff_KM wage_premium_KM
+{txt}
+{com}. reshape wide eff_KM wage_premium_KM, i(Year sector) j(skill_group)
+{txt}(note: j = 1 2)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}     116   {txt}->{res}      58
+{txt}Number of variables            {res}       5   {txt}->{res}       6
+{txt}j variable (2 values)       {res}skill_group   {txt}->   (dropped)
+xij variables:
+                                 {res}eff_KM   {txt}->   {res}eff_KM1 eff_KM2
+                        wage_premium_KM   {txt}->   {res}wage_premium_KM1 wage_premium_KM2
+{txt}{hline 77}
+
+{com}. rename  eff_KM1 eff_KM_HS
+{res}{txt}
+{com}. rename  eff_KM2 eff_KM_LS
+{res}{txt}
+{com}. rename  wage_premium_KM1 wage_premium_KM
+{res}{txt}
+{com}. drop    wage_premium_KM2
+{txt}
+{com}. 
+. 
+. *Compute the Ratio of HS to LS Efficiency Units
+. preserve
+{txt}
+{com}. collapse (sum) eff_KM_HS eff_KM_LS (last) wage_premium_KM, by(Year)
+{txt}
+{com}. gen eff_KM_HS_LS = eff_KM_HS/eff_KM_LS
+{txt}
+{com}. keep Year eff_KM_HS_LS wage_premium_KM
+{txt}
+{com}. save dta_files/eff_and_premium_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}file dta_files/eff_and_premium_KM_1977_2005.dta saved
+
+{com}. restore
+{txt}
+{com}. 
+. *Express Eff Unit Into HS Equivalent Efficiency Units
+. egen avg_wage_premium  = mean(wage_premium_KM)
+{txt}
+{com}. replace eff_KM_LS      = eff_KM_LS/avg_wage_premium
+{txt}(58 real changes made)
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. *STEP 5: Compute the Demand Shifts
+. 
+. *Generate Share of Efficiency Units of Each Group by Year (E_k in KM's Notation)
+. bys Year: egen total_eff_KM_HS = total(eff_KM_HS)
+{txt}
+{com}. bys Year: egen total_eff_KM_LS = total(eff_KM_LS) 
+{txt}
+{com}. gen share_eff_KM_HS = total_eff_KM_HS/(total_eff_KM_HS+total_eff_KM_LS)
+{txt}
+{com}. 
+. *Generate Sector Size. Here Sectors are Measured by Total Employment by Sector in KM Efficiency Units (E_j in KM's Notation) 
+. gen eff_KM                    = eff_KM_HS + eff_KM_LS
+{txt}
+{com}. bys Year: egen total_eff_KM   = total(eff_KM)
+{txt}
+{com}. gen share_eff_KM_sector       = eff_KM/total_eff_KM
+{txt}
+{com}. 
+. *Generate the Share of the HS Group in the Efficiency Units of Each Sector (alpha_j_HS in KM's notation; we have labeled this as theta_jk)
+. gen alpha_j_HS_KM  = eff_KM_HS/(eff_KM_HS + eff_KM_LS)
+{txt}
+{com}. 
+. *Compute Average Share of Efficiency Units of Each Group Over the Sample Period (average E_k in KM's Notation)
+. egen avg_share_eff_KM_HS = mean(share_eff_KM_HS)
+{txt}
+{com}. 
+. *-------------------------------------------------------------------------------
+. *Compute Average Share of Efficiency Units of the High-Skill Group in Each Sector Over the Sample Period (avg_alpha_j_HS_KM in KM's notation)
+. 
+. bys sector: egen avg_alpha_j_HS_KM = mean(alpha_j_HS_KM)
+{txt}
+{com}. 
+. keep Year sector share_eff_KM_HS share_eff_KM_sector avg_share_eff_KM_HS avg_alpha_j_HS_KM
+{txt}
+{com}. reshape wide  share_eff_KM_HS share_eff_KM_sector avg_share_eff_KM_HS avg_alpha_j_HS_KM, i(Year) j(sector) 
+{txt}(note: j = 1 2)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      58   {txt}->{res}      29
+{txt}Number of variables            {res}       6   {txt}->{res}       9
+{txt}j variable (2 values)            {res}sector   {txt}->   (dropped)
+xij variables:
+                        {res}share_eff_KM_HS   {txt}->   {res}share_eff_KM_HS1 share_eff_KM_HS2
+                    share_eff_KM_sector   {txt}->   {res}share_eff_KM_sector1 share_eff_KM_sector2
+                    avg_share_eff_KM_HS   {txt}->   {res}avg_share_eff_KM_HS1 avg_share_eff_KM_HS2
+                      avg_alpha_j_HS_KM   {txt}->   {res}avg_alpha_j_HS_KM1 avg_alpha_j_HS_KM2
+{txt}{hline 77}
+
+{com}. 
+. rename avg_share_eff_KM_HS1 avg_share_eff_KM_HS
+{res}{txt}
+{com}. drop   avg_share_eff_KM_HS2
+{txt}
+{com}. 
+. rename share_eff_KM_sector1 share_eff_KM_HS_sector 
+{res}{txt}
+{com}. rename share_eff_KM_sector2 share_eff_KM_LS_sector 
+{res}{txt}
+{com}. 
+. rename avg_alpha_j_HS_KM1 avg_alpha_KM_HS_HS_sector
+{res}{txt}
+{com}. rename avg_alpha_j_HS_KM2 avg_alpha_KM_HS_LS_sector
+{res}{txt}
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *Compute the Demand Shifts
+. 
+. gen share_eff_KM_LS_sector_initial = share_eff_KM_LS_sector  if Year == $Initial_Year
+{txt}(28 missing values generated)
+
+{com}. gen share_eff_KM_LS_sector_final   = share_eff_KM_LS_sector  if Year == $Final_Year
+{txt}(28 missing values generated)
+
+{com}. gen share_eff_KM_HS_sector_initial = share_eff_KM_HS_sector  if Year == $Initial_Year
+{txt}(28 missing values generated)
+
+{com}. gen share_eff_KM_HS_sector_final   = share_eff_KM_HS_sector  if Year == $Final_Year
+{txt}(28 missing values generated)
+
+{com}. 
+. replace share_eff_KM_LS_sector_initial = share_eff_KM_LS_sector_initial[_n-1] if share_eff_KM_LS_sector_initial == .
+{txt}(28 real changes made)
+
+{com}. replace share_eff_KM_HS_sector_initial = share_eff_KM_HS_sector_initial[_n-1] if share_eff_KM_HS_sector_initial == .
+{txt}(28 real changes made)
+
+{com}. 
+. gsort - Year
+{txt}
+{com}.  
+. replace share_eff_KM_LS_sector_final   = share_eff_KM_LS_sector_final[_n-1] if share_eff_KM_LS_sector_final   == .
+{txt}(28 real changes made)
+
+{com}. replace share_eff_KM_HS_sector_final   = share_eff_KM_HS_sector_final[_n-1] if share_eff_KM_HS_sector_final   == .
+{txt}(28 real changes made)
+
+{com}. 
+. gsort + Year 
+{txt}
+{com}. 
+. gen Delta_E_HS_sector_KM = share_eff_KM_HS_sector_final - share_eff_KM_HS_sector_initial
+{txt}
+{com}. gen Delta_E_LS_sector_KM = share_eff_KM_LS_sector_final - share_eff_KM_LS_sector_initial
+{txt}
+{com}. 
+. gen Delta_Xd_HS_KM = avg_alpha_KM_HS_HS_sector*(Delta_E_HS_sector_KM/avg_share_eff_KM_HS) + avg_alpha_KM_HS_LS_sector*(Delta_E_LS_sector_KM/avg_share_eff_KM_HS)
+{txt}
+{com}. gen Delta_Xd_LS_KM = (1-avg_alpha_KM_HS_HS_sector)*(Delta_E_HS_sector_KM/(1-avg_share_eff_KM_HS)) + (1-avg_alpha_KM_HS_LS_sector)*(Delta_E_LS_sector_KM/(1-avg_share_eff_KM_HS))
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Comput the Relative Between-Idustry Demand Shift
+. gen Delta_Xd_KM     = Delta_Xd_HS_KM - Delta_Xd_LS_KM
+{txt}
+{com}. gen log_Delta_Xd_KM = log(1+Delta_Xd_KM)
+{txt}
+{com}. 
+. disp log_Delta_Xd_KM
+{res}.10881262
+{txt}
+{com}. 
+. * Merge With the Skill-Premium and Relative Supply of Skill Data
+. merge 1:1 Year using dta_files/eff_and_premium_KM_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}              29{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. *keep if Year == $Initial_Year | Year == $Final_Year
+. 
+. gen log_eff_KM_HS_LS = log(eff_KM_HS_LS)
+{txt}
+{com}. gen log_premium      = log(wage_premium_KM)
+{txt}
+{com}. 
+. gen  log_premium_temp_$Initial_Year  = log_premium if Year == $Initial_Year
+{txt}(28 missing values generated)
+
+{com}. egen log_premium_$Initial_Year =  max(log_premium_temp_$Initial_Year)
+{txt}
+{com}. 
+. gen  log_eff_KM_HS_LS_temp_$Initial_Year  =  log_eff_KM_HS_LS if Year == $Initial_Year
+{txt}(28 missing values generated)
+
+{com}. egen log_eff_KM_HS_LS_$Initial_Year =  max(log_eff_KM_HS_LS_temp_$Initial_Year)
+{txt}
+{com}. 
+. keep if Year == $Final_Year
+{txt}(28 observations deleted)
+
+{com}. 
+. rename log_premium log_premium_$Final_Year  
+{res}{txt}
+{com}. rename log_eff_KM_HS_LS log_eff_KM_HS_LS_$Final_Year
+{res}{txt}
+{com}. 
+. gen total_dem_shift = (1.41*(log_premium_$Final_Year - log_premium_$Initial_Year )+(log_eff_KM_HS_LS_$Final_Year -log_eff_KM_HS_LS_$Initial_Year))
+{txt}
+{com}. 
+. gen between_ind_contribution = log_Delta_Xd_KM/total_dem_shift
+{txt}
+{com}. 
+. keep Year log_Delta_Xd_KM  total_dem_shift between_ind_contribution log_premium_$Final_Year log_premium_$Initial_Year log_eff_KM_HS_LS_$Final_Year log_eff_KM_HS_LS_$Initial_Year
+{txt}
+{com}. 
+. disp between_ind_contribution
+{res}.10270023
+{txt}
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology/WorldKLEMS/Table7_row_i.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}28 Dec 2020, 11:29:32
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

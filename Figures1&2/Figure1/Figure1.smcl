@@ -1,0 +1,1669 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Figures1&2/Figure1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Dec 2020, 14:53:10
+{txt}
+{com}. 
+. * Define the Countries in the Analysis
+. global EU_KLEMS_countries "aus aut bel dnk esp fra uk ger grc irl ita jpn nld swe usa-naics"
+{txt}
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *  Define The Industries in The High- and the Low-Skill Sector
+. ** Benchmark    : HS Sector includes industries Financial Intermediation(J), Education(M), Health and Social Work(N), Renting of m&eq and other business activities (71t74)
+. ** Alternative 1: Adding Real Estate (70) and Chemicals (24) to the HS Sector 
+. ** Alternative 2: Adding Real Estate (70), Chemicals (24), Public Adm (L), and Elec and Opt Equip (30t33) to the HS Sector 
+. 
+. ** Note: Make sure to define the set of HS Industries Accordingly in the chain_price_indices.do file.
+. 
+. global set "benchmark"
+{txt}
+{com}. *global set "Alt1"
+. *global set "Alt2"
+. *-----------------
+. ** Low-Skill Industries
+. 
+. if "$set" == "benchmark"{c -(}
+. global LS_ind "AtB C D E F G H I 70 L O P"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt1"{c -(}
+. global LS_ind "AtB C 15t16 17t19 20 21t22 23 25 26 27t28 29 30t33 34t35 36t37 E F G H I L O P"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt2"{c -(}
+. global LS_ind "AtB C 15t16 17t19 20 21t22 23 25 26 27t28 29 34t35 36t37 E F G H I O P"
+. {c )-}
+{txt}
+{com}. 
+. *-----------------
+. ** High-Skill Industries
+. 
+. if "$set" == "benchmark"{c -(}
+. global HS_ind "J M N 71t74"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt1"{c -(}
+. global HS_ind "J M N 71t74 70 24"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt2"{c -(}
+. global HS_ind "J M N 71t74 70 24  L 30t33"
+. {c )-}
+{txt}
+{com}. macro list
+{txt}{p 0 16}
+HS_ind:{space 9}{res}{res}J M N 71t74
+{p_end}
+{txt}{p 0 16}
+LS_ind:{space 9}{res}{res}AtB C D E F G H I 70 L O P
+{p_end}
+{txt}{p 0 16}
+set:{space 12}{res}{res}benchmark
+{p_end}
+{txt}{p 0 16}
+EU_KLEMS_countries:{break}
+{res}aus aut bel dnk esp fra uk ger grc irl ita jpn nld swe usa-naics
+{p_end}
+{txt}{p 0 16}
+dir:{space 12}{res}{res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/
+{p_end}
+{txt}{p 0 16}
+S_level:{space 8}{res}{res}95
+{p_end}
+{txt}{p 0 16}
+S_ADO:{space 10}{res}{res}BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+{p_end}
+{txt}{p 0 16}
+S_FLAVOR:{space 7}{res}{res}Intercooled
+{p_end}
+{txt}{p 0 16}
+S_OS:{space 11}{res}{res}Unix
+{p_end}
+{txt}{p 0 16}
+S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
+{p_end}
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. 
+. * Pull the data from the Excel Files and Create Two Auxiliary .dta files per country, one for Value Added and one for Labor Compensation
+. 
+. 
+. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                         import excel excel_files/basic_files_09/`i'_output_09I.xls, sheet("VA") firstrow
+{txt}  3{com}.                                         gen     country_code = "`i'"
+{txt}  4{com}.                                         order   country_code, first
+{txt}  5{com}.                                         save    dta_files/VA/HS_Sector_$set/`i'_VA.dta, replace
+{txt}  6{com}.                                         clear all
+{txt}  7{com}.                                         {c )-}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/aus_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/aut_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/bel_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/dnk_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/esp_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/fra_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/uk_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/ger_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/grc_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/irl_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/ita_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/jpn_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/nld_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/swe_VA.dta saved
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/usa-naics_VA.dta saved
+{res}{txt}
+{com}. 
+. 
+. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                         clear all
+{txt}  3{com}.                                         import excel excel_files/basic_files_09/`i'_output_09I.xls, sheet("LAB") firstrow
+{txt}  4{com}.                                         gen     country_code = "`i'"
+{txt}  5{com}.                                         order   country_code, first
+{txt}  6{com}.                                         save    dta_files/LAB/HS_Sector_$set/`i'_LAB.dta, replace
+{txt}  7{com}. {c )-}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/aus_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/aut_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/bel_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/dnk_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/esp_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/fra_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/uk_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/ger_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/grc_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/irl_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/ita_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/jpn_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/nld_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/swe_LAB.dta saved
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/usa-naics_LAB.dta saved
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Pull the .dta files for VA and keep Total VA and HS Industries. Compute the HS Sector's Share of VA for each country
+. 
+. clear all
+{res}{txt}
+{com}. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                         use  dta_files/VA/HS_Sector_$set/`i'_VA.dta
+{txt}  3{com}. 
+.                                         gen     skill_ind = 0 if code == "TOT"
+{txt}  4{com}.                                 
+.                                         foreach j of global HS_ind {c -(} 
+{txt}  5{com}.                                         replace skill_ind = 1 if code == "`j'"
+{txt}  6{com}.                                                                    {c )-}    
+{txt}  7{com}.                                         drop if skill_ind == .
+{txt}  8{com}.                                         collapse (sum) _* (last) country_code, by(skill_ind)
+{txt}  9{com}.                                         reshape long _ , i(skill_ind) j(Year)
+{txt} 10{com}.                                         reshape wide _ , i(Year) j(skill_ind)
+{txt} 11{com}.                                         rename _0 Tot_VA
+{txt} 12{com}.                                         rename _1 HS_Ind_VA
+{txt} 13{com}.                                         gen HS_ind_share = HS_Ind_VA/Tot_VA
+{txt} 14{com}.                                         keep country_code Year HS_ind_share
+{txt} 15{com}.                                         save dta_files/VA/HS_Sector_$set/`i'_HS_ind_VA_share.dta, replace
+{txt} 16{com}.                                         {c )-}
+{txt}(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/aus_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/aut_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/bel_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/dnk_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/esp_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/fra_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/uk_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/ger_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/grc_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/irl_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/ita_HS_ind_VA_share.dta saved
+(106 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(102 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      74
+{txt}Number of variables            {res}      39   {txt}->{res}       4
+{txt}j variable (37 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2006   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      74   {txt}->{res}      37
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}(3 missing values generated)
+file dta_files/VA/HS_Sector_benchmark/jpn_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/nld_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/VA/HS_Sector_benchmark/swe_HS_ind_VA_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}(7 missing values generated)
+file dta_files/VA/HS_Sector_benchmark/usa-naics_HS_ind_VA_share.dta saved
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Pull the .dta files for LAB and keep Total LAB and HS Industries. Compute the HS Sector's Share of LAB for each country
+. 
+. clear all
+{res}{txt}
+{com}. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                         use  dta_files/LAB/HS_Sector_$set/`i'_LAB.dta
+{txt}  3{com}. 
+.                                         gen     skill_ind = 0 if code == "TOT"
+{txt}  4{com}.                                 
+.                                         foreach j of global HS_ind {c -(} 
+{txt}  5{com}.                                         replace skill_ind = 1 if code == "`j'"
+{txt}  6{com}.                                                                    {c )-}    
+{txt}  7{com}.                                         drop if skill_ind == .
+{txt}  8{com}.                                         collapse (sum) _* (last) country_code, by(skill_ind)
+{txt}  9{com}.                                         reshape long _ , i(skill_ind) j(Year)
+{txt} 10{com}.                                         reshape wide _ , i(Year) j(skill_ind)
+{txt} 11{com}.                                         rename _0 Tot_LAB
+{txt} 12{com}.                                         rename _1 HS_Ind_LAB
+{txt} 13{com}.                                         gen HS_ind_share = HS_Ind_LAB/Tot_LAB
+{txt} 14{com}.                                         keep country_code Year HS_ind_share
+{txt} 15{com}.                                         save dta_files/LAB/HS_Sector_$set/`i'_HS_ind_LAB_share.dta, replace
+{txt} 16{com}.                                         {c )-}
+{txt}(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/aus_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/aut_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}(1 missing value generated)
+file dta_files/LAB/HS_Sector_benchmark/bel_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/dnk_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/esp_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/fra_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/uk_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/ger_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/grc_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/irl_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/ita_HS_ind_LAB_share.dta saved
+(106 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(102 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      74
+{txt}Number of variables            {res}      39   {txt}->{res}       4
+{txt}j variable (37 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2006   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      74   {txt}->{res}      37
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}(2 missing values generated)
+file dta_files/LAB/HS_Sector_benchmark/jpn_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/nld_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}file dta_files/LAB/HS_Sector_benchmark/swe_HS_ind_LAB_share.dta saved
+(39 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(35 observations deleted)
+(note: j = 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       2   {txt}->{res}      76
+{txt}Number of variables            {res}      40   {txt}->{res}       4
+{txt}j variable (38 values)                    ->   {res}Year
+{txt}xij variables:
+                  {res}_1970 _1971 ... _2007   {txt}->   {res}_
+{txt}{hline 77}
+(note: j = 0 1)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      76   {txt}->{res}      38
+{txt}Number of variables            {res}       4   {txt}->{res}       4
+{txt}j variable (2 values)         {res}skill_ind   {txt}->   (dropped)
+xij variables:
+                                      {res}_   {txt}->   {res}_0 _1
+{txt}{hline 77}
+{res}{txt}(7 missing values generated)
+file dta_files/LAB/HS_Sector_benchmark/usa-naics_HS_ind_LAB_share.dta saved
+
+{com}.                                                                         
+. *-------------------------------------------------------------------------------
+. 
+. 
+. *-------------------------------------------------------------------------------
+. *  Put the data together in two Auxiliary files: one for VA and one for LAB compensation
+. 
+. *------------------------------------------------------------------------------- 
+. ** LAB file
+. 
+. clear all
+{res}{txt}
+{com}. use dta_files/LAB/HS_Sector_$set/aus_HS_ind_LAB_share.dta, replace
+{txt}
+{com}. 
+. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                         append using dta_files/LAB/HS_Sector_$set/`i'_HS_ind_LAB_share.dta                                                              
+{txt}  3{com}. {c )-}
+{txt}{p 0 7 2}
+(note: variable
+country_code was 
+str3, now str9 to accommodate using data's values)
+{p_end}
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(38 observations deleted)
+
+{com}. 
+. gen countrycode2 = upper(country_code)
+{txt}
+{com}. replace countrycode2 = "USA" if countrycode2 == "USA-NAICS" 
+{txt}(38 real changes made)
+
+{com}. replace countrycode2 = "GBR" if countrycode2 == "UK" 
+{txt}(38 real changes made)
+
+{com}. 
+. drop country_code
+{txt}
+{com}. rename countrycode2 countrycode
+{res}{txt}
+{com}. rename Year year
+{res}{txt}
+{com}. 
+. rename HS_ind_share HS_ind_LAB_share
+{res}{txt}
+{com}. 
+. save dta_files/LAB/HS_Sector_$set/HS_ind_LAB_share.dta, replace
+{txt}file dta_files/LAB/HS_Sector_benchmark/HS_ind_LAB_share.dta saved
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. ** VA file
+. 
+. clear all
+{res}{txt}
+{com}. use dta_files/VA/HS_Sector_$set/aus_HS_ind_VA_share.dta, replace
+{txt}
+{com}. 
+. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                         append using dta_files/VA/HS_Sector_$set/`i'_HS_ind_VA_share.dta                                                                                                                        
+{txt}  3{com}. {c )-}
+{txt}{p 0 7 2}
+(note: variable
+country_code was 
+str3, now str9 to accommodate using data's values)
+{p_end}
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(38 observations deleted)
+
+{com}. 
+. gen countrycode2 = upper(country_code)
+{txt}
+{com}. replace countrycode2 = "USA" if countrycode2 == "USA-NAICS" 
+{txt}(38 real changes made)
+
+{com}. replace countrycode2 = "GBR" if countrycode2 == "UK" 
+{txt}(38 real changes made)
+
+{com}. 
+. drop   country_code
+{txt}
+{com}. rename countrycode2 countrycode
+{res}{txt}
+{com}. rename Year year
+{res}{txt}
+{com}. 
+. rename HS_ind_share HS_ind_VA_share
+{res}{txt}
+{com}. 
+. save dta_files/VA/HS_Sector_$set/HS_ind_VA_share.dta, replace
+{txt}file dta_files/VA/HS_Sector_benchmark/HS_ind_VA_share.dta saved
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Pull the real GDP and Population Data From the PWT 9.0 .dta file and Compute GDP per capita
+. 
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. 
+. use dta_files/pwt90.dta
+{txt}
+{com}. 
+. keep countrycode year rgdpna pop
+{txt}
+{com}. gen gdp_pc = rgdpna/pop
+{txt}(2,391 missing values generated)
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. 
+. *-------------------------------------------------------------------------------
+. 
+. * Merge GDP per capita data with the HS Sector VA and LAB Shares
+. 
+. sort countrycode year
+{txt}
+{com}. merge m:1 year countrycode using dta_files/VA/HS_Sector_$set/HS_ind_VA_share.dta
+{res}{txt}{p 0 7 2}
+(note: variable
+countrycode was 
+str3, now str9 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          11,337
+{txt}{col 9}from master{col 30}{res}          11,299{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              38{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             531{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. keep if _merge == 3 | _merge == 2
+{txt}(11,299 observations deleted)
+
+{com}. sort countrycode year
+{txt}
+{com}. drop _merge
+{txt}
+{com}. 
+. merge m:m year countrycode using dta_files/LAB/HS_Sector_$set/HS_ind_LAB_share.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             569{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. keep if _merge == 3 | _merge == 2
+{txt}(0 observations deleted)
+
+{com}. sort countrycode year
+{txt}
+{com}. drop _merge
+{txt}
+{com}. 
+. gen log_gdp_pc = ln(gdp_pc)
+{txt}(38 missing values generated)
+
+{com}. 
+. * Save the data to an auxiliary .dta file
+. save dta_files/VA/raw_CrossCountry_VA_LAB_shares_$set.dta, replace
+{txt}file dta_files/VA/raw_CrossCountry_VA_LAB_shares_benchmark.dta saved
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Demean the data to take out country fixed effects
+. 
+. keep if         countrycode == "AUS" | countrycode == "AUT" | countrycode == "BEL" | countrycode == "DNK" | countrycode == "ESP" ///
+>               | countrycode == "FRA" | countrycode == "GBR" | countrycode == "GER" | countrycode == "GRC" | countrycode == "IRL" ///
+>               | countrycode == "ITA" | countrycode == "JPN" | countrycode == "NLD" | countrycode == "SWE" | countrycode == "USA"
+{txt}(0 observations deleted)
+
+{com}. 
+.                  egen         avg_log_gdp_pc   =  mean(log_gdp_pc)
+{txt}
+{com}. bys countrycode: egen country_avg_log_gdp_pc   =  mean(log_gdp_pc)
+{txt}(38 missing values generated)
+
+{com}. 
+. gen demeaned_log_gdp_pc         = log_gdp_pc + avg_log_gdp_pc - country_avg_log_gdp_pc
+{txt}(38 missing values generated)
+
+{com}. gen demeaned_gdp_pc             = exp(demeaned_log_gdp_pc)
+{txt}(38 missing values generated)
+
+{com}. 
+. 
+.                  egen         avg_HS_ind_VA_share   =  mean(HS_ind_VA_share)
+{txt}
+{com}. bys countrycode: egen country_avg_HS_ind_VA_share   =  mean(HS_ind_VA_share)
+{txt}
+{com}. 
+. gen demeaned_HS_ind_VA_share    = HS_ind_VA_share + avg_HS_ind_VA_share - country_avg_HS_ind_VA_share
+{txt}(10 missing values generated)
+
+{com}. 
+. gen demeaned_LS_ind_VA_share    = 1 - demeaned_HS_ind_VA_share
+{txt}(10 missing values generated)
+
+{com}. 
+.                  egen         avg_HS_ind_LAB_share   =  mean(HS_ind_LAB_share)
+{txt}
+{com}. bys countrycode: egen country_avg_HS_ind_LAB_share   =  mean(HS_ind_LAB_share)
+{txt}
+{com}. 
+. gen demeaned_HS_ind_LAB_share    = HS_ind_LAB_share + avg_HS_ind_LAB_share - country_avg_HS_ind_LAB_share
+{txt}(10 missing values generated)
+
+{com}. 
+. gen demeaned_LS_ind_LAB_share    = 1 - demeaned_HS_ind_LAB_share
+{txt}(10 missing values generated)
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *  Make the Figures
+. 
+. ** VALUE ADDED Shares
+. 
+. ** Run the Regressions First
+. reg demeaned_HS_ind_VA_share demeaned_log_gdp_pc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       521
+{txt}{hline 13}{c +}{hline 34}   F(1, 519)       = {res}  2904.68
+{txt}       Model {c |} {res}  .63465732         1   .63465732   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  .11339869       519  .000218495   {txt}R-squared       ={res}    0.8484
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.8481
+{txt}       Total {c |} {res} .748056009       520  .001438569   {txt}Root MSE        =   {res} .01478
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}demeaned_HS_ind_V~e{col 21}{c |}      Coef.{col 33}   Std. Err.{col 45}      t{col 53}   P>|t|{col 61}     [95% Con{col 74}f. Interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+demeaned_log_gdp_pc {c |}{col 21}{res}{space 2} .1437383{col 33}{space 2}  .002667{col 44}{space 1}   53.90{col 53}{space 3}0.000{col 61}{space 4} .1384989{col 74}{space 3} .1489778
+{txt}{space 14}_cons {c |}{col 21}{res}{space 2}-1.236639{col 33}{space 2} .0272349{col 44}{space 1}  -45.41{col 53}{space 3}0.000{col 61}{space 4}-1.290143{col 74}{space 3}-1.183134
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+.  
+. twoway (scatter demeaned_HS_ind_VA_share demeaned_log_gdp_pc if countrycode != "USA", msymbol(S) mcolor(ltbluishgray8) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_HS_ind_VA_share demeaned_log_gdp_pc if countrycode == "USA", msymbol(O) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_LS_ind_VA_share demeaned_log_gdp_pc if countrycode != "USA", msymbol(S) mcolor(khaki) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_LS_ind_VA_share demeaned_log_gdp_pc if countrycode == "USA", msymbol(O) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (lfit demeaned_HS_ind_VA_share demeaned_log_gdp_pc, lcolor(black) lstyle(thin) msize(large)) (lfit demeaned_LS_ind_VA_share demeaned_log_gdp_pc, lcolor(black) lstyle(thin)) , ylabel(0(0.1)1) ///
+> leg(off) title("Value Added" ) xtitle("Real GDP per capita" "(log scale)" , size(medlarge)) ytitle("Share of Total Value Added" , size(medlarge)) ///
+> text(0.30 9.85 "High-Skill Intensive Sectors" "y = 0.144 ln(x) -1.237",size(small)) text(0.70 9.85 "Low-Skill Intensive Sectors" "y = -0.144 ln(x) + 2.237", size(small)) ///
+> text(0.15 10.75 , size(small))
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{res}{txt}
+{com}. 
+. graph save Graph Figure1/Figures/VA_shares_$set.gph, replace
+{txt}(note: file Figure1/Figures/VA_shares_benchmark.gph not found)
+{res}{txt}(file Figure1/Figures/VA_shares_benchmark.gph saved)
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. 
+. ** LABOR COMPENSATION Shares
+. 
+. ** Run the Regressions First
+. reg demeaned_HS_ind_LAB_share demeaned_log_gdp_pc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       521
+{txt}{hline 13}{c +}{hline 34}   F(1, 519)       = {res}  3551.02
+{txt}       Model {c |} {res} 1.29419445         1  1.29419445   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .189153259       519  .000364457   {txt}R-squared       ={res}    0.8725
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.8722
+{txt}       Total {c |} {res} 1.48334771       520  .002852592   {txt}Root MSE        =   {res} .01909
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}demeaned_HS_ind_L~e{col 21}{c |}      Coef.{col 33}   Std. Err.{col 45}      t{col 53}   P>|t|{col 61}     [95% Con{col 74}f. Interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+demeaned_log_gdp_pc {c |}{col 21}{res}{space 2} .2046861{col 33}{space 2} .0034349{col 44}{space 1}   59.59{col 53}{space 3}0.000{col 61}{space 4} .1979381{col 74}{space 3} .2114341
+{txt}{space 14}_cons {c |}{col 21}{res}{space 2}-1.823287{col 33}{space 2} .0350705{col 44}{space 1}  -51.99{col 53}{space 3}0.000{col 61}{space 4}-1.892184{col 74}{space 3}-1.754389
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. twoway (scatter demeaned_HS_ind_LAB_share demeaned_log_gdp_pc if countrycode != "USA", msymbol(D) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_HS_ind_LAB_share demeaned_log_gdp_pc if countrycode == "USA", msymbol(O) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_LS_ind_LAB_share demeaned_log_gdp_pc if countrycode != "USA", msymbol(D) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_LS_ind_LAB_share demeaned_log_gdp_pc if countrycode == "USA", msymbol(O) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (lfit demeaned_HS_ind_LAB_share demeaned_log_gdp_pc, lcolor(black) lstyle(thin) msize(large)) (lfit demeaned_LS_ind_LAB_share demeaned_log_gdp_pc, lcolor(black) lstyle(thin)) , ylabel(0(0.1)1) ///
+> leg(off) title("Labor Compensation" ) xtitle("Real GDP per capita" "(log scale)" , size(medlarge)) ytitle("Share of Total Labor Compensation" , size(medlarge)) ///
+> text(0.35  9.85 "High-Skill Intensive Sectors" "y = 0.205 ln(x) -1.823",size(small)) text(0.65 9.85 "Low-Skill Intensive Sectors" "y = -0.205 ln(x) + 2.823", size(small))
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{res}{txt}
+{com}. 
+. graph save Graph Figure1/Figures/LAB_shares_$set.gph, replace
+{txt}(note: file Figure1/Figures/LAB_shares_benchmark.gph not found)
+{res}{txt}(file Figure1/Figures/LAB_shares_benchmark.gph saved)
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. ** Combine and Save the Figures
+. 
+. gr combine Figure1/Figures/LAB_shares_$set.gph Figure1/Figures/VA_shares_$set.gph  
+{res}{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{res}{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{res}{txt}
+{com}. 
+. graph export Figure1/Figures/figure1_$set.png, replace
+{txt}(file Figure1/Figures/figure1_benchmark.png written in PNG format)
+
+{com}. graph export Figure1/Figures/figure1_$set.pdf, replace
+{txt}(file Figure1/Figures/figure1_benchmark.pdf written in PDF format)
+
+{com}. graph save   Figure1/Figures/figure1_$set.gph, replace
+{res}{txt}(file Figure1/Figures/figure1_benchmark.gph saved)
+
+{com}. 
+. *  Clean up and save figure1.dta
+. rm Figure1/Figures/LAB_shares_$set.gph 
+{txt}
+{com}. rm Figure1/Figures/VA_shares_$set.gph
+{txt}
+{com}. 
+. save dta_files/figure1_$set.dta, replace
+{txt}file dta_files/figure1_benchmark.dta saved
+
+{com}. *----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+. 
+. 
+. *----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+. *  SENSITIVITY ANALYSES
+. ** Regressions With Fixed Effects Using the US as the Base Country
+. 
+. ** To Run the Regressions With and Without FE we use the Raw Data (instead of the demeaned data)
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use dta_files/VA/raw_CrossCountry_VA_LAB_shares_$set.dta
+{txt}
+{com}. 
+. encode countrycode, generate(country)
+{txt}
+{com}. 
+. drop if log_gdp_pc == . | HS_ind_VA_share == . | HS_ind_LAB_share == .
+{txt}(49 observations deleted)
+
+{com}. 
+. *-------------------------------------------------------------------------------
+. * VALUE ADDED Shares
+. 
+. regress HS_ind_VA_share log_gdp_pc ib15.country
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       520
+{txt}{hline 13}{c +}{hline 34}   F(14, 505)      = {res}   471.94
+{txt}       Model {c |} {res} 1.42408808        14  .101720577   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .108847238       505  .000215539   {txt}R-squared       ={res}    0.9290
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9270
+{txt}       Total {c |} {res} 1.53293532       519  .002953633   {txt}Root MSE        =   {res} .01468
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}HS_ind_VA_~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}log_gdp_pc {c |}{col 14}{res}{space 2} .1445635{col 26}{space 2} .0026638{col 37}{space 1}   54.27{col 46}{space 3}0.000{col 54}{space 4}   .13933{col 67}{space 3}  .149797
+{txt}{space 12} {c |}
+{space 5}country {c |}
+{space 8}AUS  {c |}{col 14}{res}{space 2}-.0122133{col 26}{space 2}  .003592{col 37}{space 1}   -3.40{col 46}{space 3}0.001{col 54}{space 4}-.0192704{col 67}{space 3}-.0051562
+{txt}{space 8}AUT  {c |}{col 14}{res}{space 2}-.0149699{col 26}{space 2} .0036468{col 37}{space 1}   -4.10{col 46}{space 3}0.000{col 54}{space 4}-.0221347{col 67}{space 3}-.0078051
+{txt}{space 8}BEL  {c |}{col 14}{res}{space 2} .0417336{col 26}{space 2} .0036978{col 37}{space 1}   11.29{col 46}{space 3}0.000{col 54}{space 4} .0344686{col 67}{space 3} .0489987
+{txt}{space 8}DNK  {c |}{col 14}{res}{space 2}  .010357{col 26}{space 2} .0035728{col 37}{space 1}    2.90{col 46}{space 3}0.004{col 54}{space 4} .0033377{col 67}{space 3} .0173763
+{txt}{space 8}ESP  {c |}{col 14}{res}{space 2}-.0122122{col 26}{space 2} .0038293{col 37}{space 1}   -3.19{col 46}{space 3}0.002{col 54}{space 4}-.0197355{col 67}{space 3}-.0046889
+{txt}{space 8}FRA  {c |}{col 14}{res}{space 2} .0546048{col 26}{space 2} .0036605{col 37}{space 1}   14.92{col 46}{space 3}0.000{col 54}{space 4} .0474132{col 67}{space 3} .0617964
+{txt}{space 8}GBR  {c |}{col 14}{res}{space 2} .0461112{col 26}{space 2} .0037495{col 37}{space 1}   12.30{col 46}{space 3}0.000{col 54}{space 4} .0387446{col 67}{space 3} .0534777
+{txt}{space 8}GRC  {c |}{col 14}{res}{space 2}-.0313301{col 26}{space 2} .0039381{col 37}{space 1}   -7.96{col 46}{space 3}0.000{col 54}{space 4}-.0390671{col 67}{space 3}-.0235932
+{txt}{space 8}IRL  {c |}{col 14}{res}{space 2}  .005153{col 26}{space 2}  .003736{col 37}{space 1}    1.38{col 46}{space 3}0.168{col 54}{space 4} -.002187{col 67}{space 3} .0124929
+{txt}{space 8}ITA  {c |}{col 14}{res}{space 2}-.0135571{col 26}{space 2} .0036518{col 37}{space 1}   -3.71{col 46}{space 3}0.000{col 54}{space 4}-.0207317{col 67}{space 3}-.0063824
+{txt}{space 8}JPN  {c |}{col 14}{res}{space 2}-.0319849{col 26}{space 2} .0037687{col 37}{space 1}   -8.49{col 46}{space 3}0.000{col 54}{space 4}-.0393892{col 67}{space 3}-.0245805
+{txt}{space 8}NLD  {c |}{col 14}{res}{space 2} .0268009{col 26}{space 2} .0035952{col 37}{space 1}    7.45{col 46}{space 3}0.000{col 54}{space 4} .0197375{col 67}{space 3} .0338643
+{txt}{space 8}SWE  {c |}{col 14}{res}{space 2} .0375605{col 26}{space 2} .0036276{col 37}{space 1}   10.35{col 46}{space 3}0.000{col 54}{space 4} .0304335{col 67}{space 3} .0446875
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-1.252483{col 26}{space 2} .0281835{col 37}{space 1}  -44.44{col 46}{space 3}0.000{col 54}{space 4}-1.307855{col 67}{space 3}-1.197112
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. display e(r2)
+{res}.92899424
+{txt}
+{com}. *0.92899424
+. 
+. regress HS_ind_VA_share ib15.country
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       520
+{txt}{hline 13}{c +}{hline 34}   F(13, 506)      = {res}    41.31
+{txt}       Model {c |} {res} .789282722        13  .060714056   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}   .7436526       506  .001469669   {txt}R-squared       ={res}    0.5149
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5024
+{txt}       Total {c |} {res} 1.53293532       519  .002953633   {txt}Root MSE        =   {res} .03834
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}HS_ind_VA_~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}country {c |}
+{space 8}AUS  {c |}{col 14}{res}{space 2}-.0408014{col 26}{space 2} .0092782{col 37}{space 1}   -4.40{col 46}{space 3}0.000{col 54}{space 4}-.0590299{col 67}{space 3} -.022573
+{txt}{space 8}AUT  {c |}{col 14}{res}{space 2}-.0595397{col 26}{space 2} .0092782{col 37}{space 1}   -6.42{col 46}{space 3}0.000{col 54}{space 4}-.0777682{col 67}{space 3}-.0413113
+{txt}{space 8}BEL  {c |}{col 14}{res}{space 2}-.0096308{col 26}{space 2} .0093343{col 37}{space 1}   -1.03{col 46}{space 3}0.303{col 54}{space 4}-.0279696{col 67}{space 3} .0087079
+{txt}{space 8}DNK  {c |}{col 14}{res}{space 2}-.0099339{col 26}{space 2} .0092782{col 37}{space 1}   -1.07{col 46}{space 3}0.285{col 54}{space 4}-.0281624{col 67}{space 3} .0082945
+{txt}{space 8}ESP  {c |}{col 14}{res}{space 2}-.0896975{col 26}{space 2} .0092782{col 37}{space 1}   -9.67{col 46}{space 3}0.000{col 54}{space 4}-.1079259{col 67}{space 3} -.071469
+{txt}{space 8}FRA  {c |}{col 14}{res}{space 2} .0068604{col 26}{space 2} .0092782{col 37}{space 1}    0.74{col 46}{space 3}0.460{col 54}{space 4}-.0113681{col 67}{space 3} .0250888
+{txt}{space 8}GBR  {c |}{col 14}{res}{space 2}-.0188747{col 26}{space 2} .0092782{col 37}{space 1}   -2.03{col 46}{space 3}0.042{col 54}{space 4}-.0371032{col 67}{space 3}-.0006463
+{txt}{space 8}GRC  {c |}{col 14}{res}{space 2}-.1234814{col 26}{space 2} .0092782{col 37}{space 1}  -13.31{col 46}{space 3}0.000{col 54}{space 4}-.1417098{col 67}{space 3}-.1052529
+{txt}{space 8}IRL  {c |}{col 14}{res}{space 2}-.0574904{col 26}{space 2} .0092782{col 37}{space 1}   -6.20{col 46}{space 3}0.000{col 54}{space 4}-.0757188{col 67}{space 3}-.0392619
+{txt}{space 8}ITA  {c |}{col 14}{res}{space 2}  -.05931{col 26}{space 2} .0092782{col 37}{space 1}   -6.39{col 46}{space 3}0.000{col 54}{space 4}-.0775385{col 67}{space 3}-.0410816
+{txt}{space 8}JPN  {c |}{col 14}{res}{space 2}-.0837857{col 26}{space 2} .0095202{col 37}{space 1}   -8.80{col 46}{space 3}0.000{col 54}{space 4}-.1024897{col 67}{space 3}-.0650817
+{txt}{space 8}NLD  {c |}{col 14}{res}{space 2} -.002955{col 26}{space 2} .0092782{col 37}{space 1}   -0.32{col 46}{space 3}0.750{col 54}{space 4}-.0211834{col 67}{space 3} .0152735
+{txt}{space 8}SWE  {c |}{col 14}{res}{space 2}-.0021104{col 26}{space 2} .0092782{col 37}{space 1}   -0.23{col 46}{space 3}0.820{col 54}{space 4}-.0203389{col 67}{space 3}  .016118
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .2703161{col 26}{space 2} .0068854{col 37}{space 1}   39.26{col 46}{space 3}0.000{col 54}{space 4} .2567886{col 67}{space 3} .2838436
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. display e(r2)
+{res}.51488325
+{txt}
+{com}. *0.51488325
+. 
+. regress HS_ind_VA_share log_gdp_pc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       520
+{txt}{hline 13}{c +}{hline 34}   F(1, 518)       = {res}  1021.94
+{txt}       Model {c |} {res} 1.01729016         1  1.01729016   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .515645165       518  .000995454   {txt}R-squared       ={res}    0.6636
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6630
+{txt}       Total {c |} {res} 1.53293532       519  .002953633   {txt}Root MSE        =   {res} .03155
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}HS_ind_VA_~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}log_gdp_pc {c |}{col 14}{res}{space 2} .1543261{col 26}{space 2} .0048276{col 37}{space 1}   31.97{col 46}{space 3}0.000{col 54}{space 4} .1448421{col 67}{space 3} .1638102
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-1.344197{col 26}{space 2} .0492856{col 37}{space 1}  -27.27{col 46}{space 3}0.000{col 54}{space 4}-1.441022{col 67}{space 3}-1.247373
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. display e(r2)
+{res}.66362236
+{txt}
+{com}. *0.66362236
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * LABOR COMPENSATION Shares
+. 
+. reg HS_ind_LAB_share log_gdp_pc ib15.country
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       520
+{txt}{hline 13}{c +}{hline 34}   F(14, 505)      = {res}   477.49
+{txt}       Model {c |} {res} 2.39101766        14  .170786976   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .180628067       505  .000357679   {txt}R-squared       ={res}    0.9298
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9278
+{txt}       Total {c |} {res} 2.57164572       519  .004955001   {txt}Root MSE        =   {res} .01891
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}HS_ind_LAB~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}log_gdp_pc {c |}{col 14}{res}{space 2}  .206421{col 26}{space 2} .0034315{col 37}{space 1}   60.15{col 46}{space 3}0.000{col 54}{space 4} .1996792{col 67}{space 3} .2131628
+{txt}{space 12} {c |}
+{space 5}country {c |}
+{space 8}AUS  {c |}{col 14}{res}{space 2} .0058037{col 26}{space 2} .0046272{col 37}{space 1}    1.25{col 46}{space 3}0.210{col 54}{space 4}-.0032873{col 67}{space 3} .0148946
+{txt}{space 8}AUT  {c |}{col 14}{res}{space 2}-.0036915{col 26}{space 2} .0046979{col 37}{space 1}   -0.79{col 46}{space 3}0.432{col 54}{space 4}-.0129212{col 67}{space 3} .0055383
+{txt}{space 8}BEL  {c |}{col 14}{res}{space 2} .0718152{col 26}{space 2} .0047636{col 37}{space 1}   15.08{col 46}{space 3}0.000{col 54}{space 4} .0624563{col 67}{space 3}  .081174
+{txt}{space 8}DNK  {c |}{col 14}{res}{space 2} .0177954{col 26}{space 2} .0046025{col 37}{space 1}    3.87{col 46}{space 3}0.000{col 54}{space 4} .0087531{col 67}{space 3} .0268377
+{txt}{space 8}ESP  {c |}{col 14}{res}{space 2} .0115411{col 26}{space 2} .0049329{col 37}{space 1}    2.34{col 46}{space 3}0.020{col 54}{space 4} .0018496{col 67}{space 3} .0212327
+{txt}{space 8}FRA  {c |}{col 14}{res}{space 2} .0756562{col 26}{space 2} .0047154{col 37}{space 1}   16.04{col 46}{space 3}0.000{col 54}{space 4} .0663919{col 67}{space 3} .0849204
+{txt}{space 8}GBR  {c |}{col 14}{res}{space 2} .0540377{col 26}{space 2} .0048301{col 37}{space 1}   11.19{col 46}{space 3}0.000{col 54}{space 4} .0445481{col 67}{space 3} .0635273
+{txt}{space 8}GRC  {c |}{col 14}{res}{space 2}-.0157221{col 26}{space 2}  .005073{col 37}{space 1}   -3.10{col 46}{space 3}0.002{col 54}{space 4}-.0256889{col 67}{space 3}-.0057553
+{txt}{space 8}IRL  {c |}{col 14}{res}{space 2} .0156533{col 26}{space 2} .0048127{col 37}{space 1}    3.25{col 46}{space 3}0.001{col 54}{space 4}  .006198{col 67}{space 3} .0251086
+{txt}{space 8}ITA  {c |}{col 14}{res}{space 2}-.0235798{col 26}{space 2} .0047043{col 37}{space 1}   -5.01{col 46}{space 3}0.000{col 54}{space 4}-.0328221{col 67}{space 3}-.0143374
+{txt}{space 8}JPN  {c |}{col 14}{res}{space 2}-.0284614{col 26}{space 2} .0048549{col 37}{space 1}   -5.86{col 46}{space 3}0.000{col 54}{space 4}-.0379997{col 67}{space 3}-.0189231
+{txt}{space 8}NLD  {c |}{col 14}{res}{space 2} .0329933{col 26}{space 2} .0046314{col 37}{space 1}    7.12{col 46}{space 3}0.000{col 54}{space 4} .0238942{col 67}{space 3} .0420924
+{txt}{space 8}SWE  {c |}{col 14}{res}{space 2} .0385695{col 26}{space 2} .0046731{col 37}{space 1}    8.25{col 46}{space 3}0.000{col 54}{space 4} .0293885{col 67}{space 3} .0477505
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-1.856019{col 26}{space 2}  .036306{col 37}{space 1}  -51.12{col 46}{space 3}0.000{col 54}{space 4}-1.927349{col 67}{space 3} -1.78469
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. display e(r2)
+{res}.92976168
+{txt}
+{com}. *0.92976168
+. 
+. reg HS_ind_LAB_share ib15.country
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       520
+{txt}{hline 13}{c +}{hline 34}   F(13, 506)      = {res}    28.94
+{txt}       Model {c |} {res} 1.09672922        13  .084363786   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  1.4749165       506  .002914855   {txt}R-squared       ={res}    0.4265
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4117
+{txt}       Total {c |} {res} 2.57164572       519  .004955001   {txt}Root MSE        =   {res} .05399
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}HS_ind_LAB~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}country {c |}
+{space 8}AUS  {c |}{col 14}{res}{space 2} -.035017{col 26}{space 2} .0130665{col 37}{space 1}   -2.68{col 46}{space 3}0.008{col 54}{space 4}-.0606884{col 67}{space 3}-.0093457
+{txt}{space 8}AUT  {c |}{col 14}{res}{space 2}-.0673324{col 26}{space 2} .0130665{col 37}{space 1}   -5.15{col 46}{space 3}0.000{col 54}{space 4}-.0930037{col 67}{space 3} -.041661
+{txt}{space 8}BEL  {c |}{col 14}{res}{space 2}-.0015277{col 26}{space 2} .0131456{col 37}{space 1}   -0.12{col 46}{space 3}0.908{col 54}{space 4}-.0273545{col 67}{space 3}  .024299
+{txt}{space 8}DNK  {c |}{col 14}{res}{space 2}-.0111778{col 26}{space 2} .0130665{col 37}{space 1}   -0.86{col 46}{space 3}0.393{col 54}{space 4}-.0368491{col 67}{space 3} .0144935
+{txt}{space 8}ESP  {c |}{col 14}{res}{space 2}-.0990994{col 26}{space 2} .0130665{col 37}{space 1}   -7.58{col 46}{space 3}0.000{col 54}{space 4}-.1247707{col 67}{space 3}-.0734281
+{txt}{space 8}FRA  {c |}{col 14}{res}{space 2} .0074823{col 26}{space 2} .0130665{col 37}{space 1}    0.57{col 46}{space 3}0.567{col 54}{space 4} -.018189{col 67}{space 3} .0331536
+{txt}{space 8}GBR  {c |}{col 14}{res}{space 2}-.0387551{col 26}{space 2} .0130665{col 37}{space 1}   -2.97{col 46}{space 3}0.003{col 54}{space 4}-.0644265{col 67}{space 3}-.0130838
+{txt}{space 8}GRC  {c |}{col 14}{res}{space 2}-.1473041{col 26}{space 2} .0130665{col 37}{space 1}  -11.27{col 46}{space 3}0.000{col 54}{space 4}-.1729754{col 67}{space 3}-.1216327
+{txt}{space 8}IRL  {c |}{col 14}{res}{space 2}-.0737946{col 26}{space 2} .0130665{col 37}{space 1}   -5.65{col 46}{space 3}0.000{col 54}{space 4} -.099466{col 67}{space 3}-.0481233
+{txt}{space 8}ITA  {c |}{col 14}{res}{space 2}  -.08891{col 26}{space 2} .0130665{col 37}{space 1}   -6.80{col 46}{space 3}0.000{col 54}{space 4}-.1145814{col 67}{space 3}-.0632387
+{txt}{space 8}JPN  {c |}{col 14}{res}{space 2}-.1024274{col 26}{space 2} .0134074{col 37}{space 1}   -7.64{col 46}{space 3}0.000{col 54}{space 4}-.1287685{col 67}{space 3}-.0760864
+{txt}{space 8}NLD  {c |}{col 14}{res}{space 2}-.0094949{col 26}{space 2} .0130665{col 37}{space 1}   -0.73{col 46}{space 3}0.468{col 54}{space 4}-.0351662{col 67}{space 3} .0161765
+{txt}{space 8}SWE  {c |}{col 14}{res}{space 2}-.0180763{col 26}{space 2} .0130665{col 37}{space 1}   -1.38{col 46}{space 3}0.167{col 54}{space 4}-.0437477{col 67}{space 3}  .007595
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  .318373{col 26}{space 2} .0096968{col 37}{space 1}   32.83{col 46}{space 3}0.000{col 54}{space 4} .2993221{col 67}{space 3} .3374239
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. display e(r2)
+{res}.42646979
+{txt}
+{com}. *0.42646979
+. 
+. reg HS_ind_LAB_share log_gdp_pc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       520
+{txt}{hline 13}{c +}{hline 34}   F(1, 518)       = {res}  1370.67
+{txt}       Model {c |} {res} 1.86632864         1  1.86632864   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .705317088       518  .001361616   {txt}R-squared       ={res}    0.7257
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7252
+{txt}       Total {c |} {res} 2.57164572       519  .004955001   {txt}Root MSE        =   {res}  .0369
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}HS_ind_LAB~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}log_gdp_pc {c |}{col 14}{res}{space 2} .2090312{col 26}{space 2}  .005646{col 37}{space 1}   37.02{col 46}{space 3}0.000{col 54}{space 4} .1979393{col 67}{space 3} .2201232
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-1.864131{col 26}{space 2} .0576417{col 37}{space 1}  -32.34{col 46}{space 3}0.000{col 54}{space 4}-1.977371{col 67}{space 3}-1.750891
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. display e(r2)
+{res}.72573318
+{txt}
+{com}. *0.72573318
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. 
+. *  R2 of Regressions With and Without Fixed Effects: Summary
+. 
+. ** VA Shares Regression
+. ** With FE and log GDP per capita the R2 is: 0.9290
+. ** With FE only                   the R2 is: 0.5149
+. ** With log GDP per capita only   the R2 is: 0.6636
+. 
+. ** LAB Shares Regression
+. ** With FE and log GDP per capita the R2 is: 0.9298
+. ** With FE only                   the R2 is: 0.4265
+. ** With log GDP per capita only   the R2 is: 0.7257
+. 
+. *-------------------------------------------------------------------------------
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Figures1&2/Figure1.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}15 Dec 2020, 14:53:18
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -1,0 +1,89 @@
+TBL2-87.FMT                                              April 30, 1994
+
+
+File layout for TBL2-87.DAT, Table 2.--The Use of Commodities by Industries
+------------------------------------------------------------------------
+Column            Description
+------------------------------------------------------------------------
+
+  1-  5     Commodity I-O code
+
+  7- 11     Industry I-O code
+
+ 13- 13     Table reference number (2); includes SURVEY tables 2.1 and 2.2
+
+ 17- 25     Use table cell.  These values represent the use of inputs
+            (identified by commodity codes) by industries or final demand
+            (identified by industry codes), in producers' prices.
+
+ 27- 35     Margins and transportation costs.  This field contains an entry
+            only when the commodity codes refer to transportation (65A-65E),
+            and trade (69A and 69B).  The entry represents the sum of the
+            costs of distribution (transportation and trade) associated with
+            all of the inputs consumed by an industry or a final user.
+
+ 37- 45     Railroad transportation costs.  Entries in this field represent
+            rail costs to deliver a commodity to the using industry or final
+            user.
+
+ 47- 55     Truck transportation costs. Entries in this field represent truck
+            costs to deliver a commodity to the using industry or final user. 
+            
+
+ 57- 65     Water transportation costs.  Entries in this field represent water
+            freight costs to deliver a commodity to the using industry  or
+            final user. 
+
+ 67- 75     Air transportation costs.  Entries in this field represent air
+            freight costs to deliver a commodity to the using industry or
+            final user. 
+
+ 77- 85     Pipeline transportation costs.  Entries in this field represent
+            oil pipeline transportation costs to deliver a commodity to the
+            using industry or final user.
+
+ 87- 95     Wholesale margin.  Entries in this field represent the wholesale
+            trade margin necessary to deliver a commodity to the using
+            industry or final user.  Included in the margin are sales taxes,
+            State and local excise taxes collected by wholesalers. 
+
+ 97-105     Retail margin.  Entries in this field represent the retail trade
+            margin necessary to deliver a commodity to the using industry or
+            final user.  Included in the margin are sales taxes, State and
+            local excise taxes, and Federal excise taxes collected by
+            retailers. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

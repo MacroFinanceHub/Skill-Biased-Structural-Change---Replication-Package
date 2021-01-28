@@ -1,0 +1,542 @@
+010100	Dairy farm products
+010200	Poultry and eggs
+010301	Meat animals
+010302	Miscellaneous livestock
+020100	Cotton
+020201	Food grains
+020202	Feed grains
+020203	Grass seeds
+020300	Tobacco
+020401	Fruits
+020402	Tree nuts
+020501	Vegetables
+020502	Sugar crops
+020503	Miscellaneous crops
+020600	Oil bearing crops
+020701	Forest products
+020702	Greenhouse and nursery products
+030001	Forestry products
+030002	Commercial fishing
+040001	Agricultural, forestry, and fishery services
+040002	Landscape and horticultural services
+050001	Iron and ferroalloy ores, and miscellaneous metal ores, n.e.c.
+060100	Copper ore
+060200	Nonferrous metal ores, except copper
+070000	Coal
+080001	Crude petroleum and natural gas
+090001	Dimension, crushed and broken stone
+090002	Sand and gravel
+090003	Clay, ceramic, and refractory minerals
+090004	Nonmetallic mineral services and miscellaneous
+100000	Chemical and fertilizer minerals
+110101	New residential 1 unit structures, nonfarm
+110102	New residential 2-4 unit structures, nonfarm
+110105	New residential  additions and alterations, nonfarm
+110108	New residential garden and high-rise apartments construction
+110400	New highways, bridges, and other horizontal construction
+110501	New farm residential construction
+110601	Petroleum and natural gas well drilling
+110602	Petroleum, natural gas, and solid mineral exploration
+110603	Access structures for solid mineral development
+110800	New office, industrial and commercial buildings construction
+110900	Other new construction
+120101	Maintenance and repair of farm and nonfarm residential structures
+120214	Maintenance and repair  of highways & streets
+120215	Maintenance and repair of petroleum and natural gas wells
+120300	Other repair and maintenance construction
+130100	Guided missiles and space vehicles
+130200	Ammunition, except for small arms, n.e.c.
+130300	Tanks and tank components
+130500	Small arms
+130600	Small arms ammunition
+130700	Ordnance and accessories, n.e.c.
+140101	Meat packing plants
+140102	Sausages and other prepared meat products
+140105	Poultry slaughtering and processing
+140200	Creamery butter
+140300	Natural, processed, and imitation cheese
+140400	Dry, condensed, and evaporated dairy products
+140500	Ice cream and frozen desserts
+140600	Fluid milk
+140700	Canned and cured fish and seafoods
+140800	Canned specialties
+140900	Canned fruits, vegetables, preserves, jams, and jellies
+141000	Dehydrated fruits, vegetables, and soups
+141100	Pickles, sauces, and salad dressings
+141200	Prepared fresh or frozen fish and seafoods
+141301	Frozen fruits, fruit juices, and vegetables
+141302	Frozen specialties, n.e.c.
+141401	Flour and other grain mill products
+141402	Cereal breakfast foods
+141403	Prepared flour mixes and doughs
+141501	Dog and cat food
+141502	Prepared feeds, n.e.c.
+141600	Rice milling
+141700	Wet corn milling
+141801	Bread, cake, and related products
+141802	Cookies and crackers
+141803	Frozen bakery products, except bread
+141900	Sugar
+142002	Chocolate and cocoa products
+142004	Salted and roasted nuts and seeds
+142005	Candy and other confectionery products
+142101	Malt beverages
+142102	Malt
+142103	Wines, brandy, and brandy spirits
+142104	Distilled and blended liquors
+142200	Bottled and canned soft drinks
+142300	Flavoring extracts and flavoring syrups, n.e.c.
+142400	Cottonseed oil mills
+142500	Soybean oil mills
+142600	Vegetable oil mills, n.e.c.
+142700	Animal and marine fats and oils
+142800	Roasted coffee
+142900	Edible fats and oils, n.e.c.
+143000	Manufactured ice
+143100	Macaroni, spaghetti, vermicelli, and noodles
+143201	Potato chips and similar snacks
+143202	Food preparations, n.e.c.
+150101	Cigarettes
+150102	Cigars
+150103	Chewing and smoking tobacco and snuff
+150200	Tobacco stemming and redrying
+160100	Broadwoven fabric mills and fabric finishing plants
+160200	Narrow fabric mills
+160300	Yarn mills and finishing of textiles, n.e.c.
+160400	Thread mills
+170100	Carpets and rugs
+170600	Coated fabrics, not rubberized
+170700	Tire cord and fabrics
+170900	Cordage and twine
+171001	Nonwoven fabrics
+171100	Textile goods, n.e.c.
+180101	Women's hosiery, except socks
+180102	Hosiery, n.e.c.
+180201	Knit outerwear mills
+180202	Knit underwear and nightwear mills
+180203	Knitting mills, n.e.c.
+180300	Knit fabric mills
+180400	Apparel made from purchased materials
+190100	Curtains and draperies
+190200	Housefurnishings, n.e.c.
+190301	Textile bags
+190302	Canvas and related products
+190303	Pleating and stitching
+190304	Automotive and apparel trimmings
+190305	Schiffli machine embroideries
+190306	Fabricated textile products, n.e.c.
+200100	Logging
+200200	Sawmills and planing mills, general
+200300	Hardwood dimension and flooring mills
+200400	Special product sawmills, n.e.c.
+200501	Millwork
+200502	Wood kitchen cabinets
+200600	Veneer and plywood
+200701	Structural wood members, n.e.c.
+200702	Prefabricated wood buildings and components
+200703	Mobile homes
+200800	Wood preserving
+200901	Wood pallets and skids
+200903	Wood products, n.e.c.
+200904	Reconstituted wood products
+210000	Wood containers, n.e.c.
+220101	Wood household furniture, except upholstered
+220102	Household furniture, n.e.c.
+220103	Wood television and radio cabinets
+220200	Upholstered household furniture
+220300	Metal household furniture
+220400	Mattresses and bedsprings
+230100	Wood office furniture
+230200	Office furniture, except wood
+230300	Public building and related furniture
+230400	Wood partitions and fixtures
+230500	Partitions and fixtures, except wood
+230600	Drapery hardware and window blinds and shades
+230700	Furniture and fixtures, n.e.c.
+240100	Pulp mills
+240400	Envelopes
+240500	Sanitary paper products
+240701	Paper coating and glazing
+240702	Bags, except textile
+240703	Die-cut paper and paperboard and cardboard
+240705	Stationery, tablets, and related products
+240706	Converted paper products, n.e.c.
+240800	Paper and paperboard mills
+250000	Paperboard containers and boxes
+260100	Newspapers
+260200	Periodicals
+260301	Book publishing
+260302	Book printing
+260400	Miscellaneous publishing
+260501	Commercial printing
+260601	Manifold business forms
+260602	Blankbooks, looseleaf binders and devices
+260700	Greeting cards
+260802	Bookbinding and related work
+260803	Typesetting
+260806	Platemaking and related services
+270100	Industrial inorganic and organic chemicals
+270201	Nitrogenous and phosphatic fertilizers
+270202	Fertilizers, mixing only
+270300	Pesticides and agricultural chemicals, n.e.c.
+270401	Gum and wood chemicals
+270402	Adhesives and sealants
+270403	Explosives
+270404	Printing ink
+270405	Carbon black
+270406	Chemicals and chemical preparations, n.e.c.
+280100	Plastics materials and resins
+280200	Synthetic rubber
+280300	Cellulosic manmade fibers
+280400	Manmade organic fibers, except cellulosic
+290100	Drugs
+290201	Soap and other detergents
+290202	Polishes and sanitation goods
+290203	Surface active agents
+290300	Toilet preparations
+300000	Paints and allied products
+310101	Petroleum refining
+310102	Lubricating oils and greases
+310103	Products of petroleum and coal, n.e.c.
+310200	Asphalt paving mixtures and blocks
+310300	Asphalt felts and coatings
+320100	Tires and inner tubes
+320200	Rubber and plastics footwear
+320300	Fabricated rubber products, n.e.c.
+320400	Miscellaneous plastics products, n.e.c.
+320500	Rubber and plastics hose and belting
+320600	Gaskets, packing, and sealing devices
+330001	Leather tanning and finishing
+340100	Boot and shoe cut stock and findings
+340201	Shoes, except rubber
+340202	House slippers
+340301	Leather gloves and mittens
+340302	Luggage
+340303	Women's handbags and purses
+340304	Personal leather goods, n.e.c.
+340305	Leather goods, n.e.c.
+350100	Glass and glass products, except containers
+350200	Glass containers
+360100	Cement, hydraulic
+360200	Brick and structural clay tile
+360300	Ceramic wall and floor tile
+360400	Clay refractories
+360500	Structural clay products, n.e.c.
+360600	Vitreous china plumbing fixtures
+360701	Vitreous china table and kitchenware
+360702	Fine earthenware table and kitchenware
+360800	Porcelain electrical supplies
+360900	Pottery products, n.e.c.
+361000	Concrete block and brick
+361100	Concrete products, except block and brick
+361200	Ready-mixed concrete
+361300	Lime
+361400	Gypsum products
+361500	Cut stone and stone products
+361600	Abrasive products
+361700	Asbestos products
+361900	Minerals, ground or treated
+362000	Mineral wool
+362100	Nonclay refractories
+362200	Nonmetallic mineral products, n.e.c.
+370101	Blast furnaces and steel mills
+370102	Electrometallurgical products, except steel
+370103	Steel wiredrawing and steel nails and spikes
+370104	Cold-rolled steel sheet, strip, and bars
+370105	Steel pipe and tubes
+370200	Iron and steel foundries
+370300	Iron and steel forgings
+370401	Metal heat treating
+370402	Primary metal products, n.e.c.
+380100	Primary smelting and refining of copper
+380400	Primary aluminum
+380501	Primary nonferrous metals, n.e.c.
+380600	Secondary nonferrous metals
+380700	Rolling, drawing, and extruding of copper
+380800	Aluminum rolling and drawing
+380900	Nonferrous rolling and drawing, n.e.c.
+381000	Nonferrous wiredrawing and insulating
+381100	Aluminum castings
+381200	Copper foundries
+381300	Nonferrous castings, n.e.c.
+381400	Nonferrous forgings
+390100	Metal cans
+390200	Metal shipping barrels, drums, kegs, and pails
+400100	Enameled iron and metal sanitary ware
+400200	Plumbing fixture fittings and trim
+400300	Heating equipment, except electric and warm air furnaces
+400400	Fabricated structural metal
+400500	Metal doors, sash, frames, molding, and trim
+400600	Fabricated plate work (boiler shops)
+400700	Sheet metal work
+400800	Architectural and ornamental metal work
+400901	Prefabricated metal buildings and components
+400902	Miscellaneous structural metal work
+410100	Screw machine products, bolts, etc.
+410201	Automotive stampings
+410202	Crowns and closures
+410203	Metal stampings, n.e.c.
+420100	Cutlery
+420201	Hand and edge tools, except machine tools and handsaws
+420202	 Saw blades and handsaws
+420300	Hardware, n.e.c.
+420401	Plating and polishing
+420402	Coating,engraving, and allied services, n.e.c.
+420500	Miscellaneous fabricated wire products
+420700	Steel springs, except wire
+420800	Pipe, valves, and pipe fittings
+421000	Metal foil and leaf
+421100	Fabricated metal products, n.e.c.
+430100	Turbines and turbine generator sets
+430200	Internal combustion engines, n.e.c.
+440001	Farm machinery and equipment
+440002	Lawn and garden equipment
+450100	Construction machinery and equipment
+450200	Mining machinery, except oil field
+450300	Oil and gas field machinery and equipment
+460100	Elevators and moving stairways
+460200	Conveyors and conveying equipment
+460300	Hoists, cranes, and monorails
+460400	Industrial trucks and tractors
+470100	Machine tools, metal cutting types
+470200	Machine tools, metal forming types
+470300	Special dies and tools and machine tool accessories
+470401	Power-driven handtools
+470402	Rolling mill machinery and equipment
+470404	Electric and gas welding and soldering equipment
+470405	Industrial patterns
+470500	Metalworking machinery, n.e.c.
+480100	Food products machinery
+480200	Textile machinery
+480300	Woodworking machinery
+480400	Paper industries machinery
+480500	Printing trades machinery and equipment
+480600	Special industry machinery, n.e.c.
+490100	Pumps and compressors
+490200	Ball and roller bearings
+490300	Blowers and fans
+490500	Mechanical power transmission equipment
+490600	Industrial process furnaces and ovens
+490700	General industrial machinery and equipment, n.e.c.
+490800	Packaging machinery
+500100	Carburetors, pistons, rings, and valves
+500200	Fluid power equipment
+500300	Scales and balances, except laboratory
+500400	Industrial and commercial machinery and equipment, n.e.c.
+510102	Calculating and accounting machines
+510103	Electronic computers
+510104	Computer peripheral equipment
+510400	Office machines, n.e.c.
+520100	Automatic vending machines
+520200	Commercial laundry equipment
+520300	Refrigeration and heating equipment
+520400	Measuring and dispensing pumps
+520500	Service industry machinery, n.e.c.
+530200	Power, distribution, and specialty transformers
+530300	Switchgear and switchboard apparatus
+530400	Motors and generators
+530500	Relays and industrial controls
+530700	Carbon and graphite products
+530800	Electrical industrial apparatus, n.e.c.
+540100	Household cooking equipment
+540200	Household refrigerators and freezers
+540300	Household laundry equipment
+540400	Electric housewares and fans
+540500	Household vacuum cleaners
+540700	Household appliances, n.e.c.
+550100	Electric lamp bulbs and tubes
+550200	Lighting fixtures and equipment
+550300	Wiring devices
+560100	Household audio and video equipment
+560200	Prerecorded records and tapes
+560300	Telephone and telegraph apparatus
+560500	Communication equipment
+570100	Electron tubes
+570200	Semiconductors and related devices
+570300	Other electronic components
+580100	Storage batteries
+580200	Primary batteries, dry and wet
+580400	Electrical equipment for internal combustion engines
+580600	Magnetic and optical recording media
+580700	Electrical machinery, equipment, and supplies, n.e.c.
+590100	Truck and bus bodies
+590200	Truck trailers
+590301	Motor vehicles and passenger car bodies
+590302	Motor vehicle parts and accessories
+600100	Aircraft
+600200	Aircraft and missile engines and engine parts
+600400	Aircraft and missile equipment, n.e.c.
+610100	Ship building and repairing
+610200	Boat building and repairing
+610300	Railroad equipment
+610500	Motorcycles, bicycles, and parts
+610601	Travel trailers and campers
+610603	Motor homes
+610700	Transportation equipment, n.e.c.
+620101	Search and navigation equipment
+620102	Laboratory apparatus and furniture
+620200	Mechanical measuring devices
+620300	Environmental controls
+620400	Surgical and medical instruments and apparatus
+620500	Surgical appliances and supplies
+620600	Dental equipment and supplies
+620700	Watches, clocks, watchcases, and parts
+620800	X-ray apparatus and tubes
+620900	Electromedical and electrotherapeutic apparatus
+621000	Laboratory and optical instruments
+621100	Instruments to measure electricity
+630200	Ophthalmic goods
+630300	Photographic equipment and supplies
+640101	Jewelry, precious metal
+640102	Jewelers' materials and lapidary work
+640104	Silverware and plated ware
+640105	Costume jewelry
+640200	Musical instruments
+640301	Games, toys, and children's vehicles
+640302	Dolls and stuffed toys
+640400	Sporting and athletic goods, n.e.c.
+640501	Pens, mechanical pencils, and parts
+640502	Lead pencils and art goods
+640503	Marking devices
+640504	Carbon paper and inked ribbons
+640700	Fasteners, buttons, needles, and pins
+640800	Brooms and brushes
+640900	Hard surface floor coverings, n.e.c.
+641000	Burial caskets
+641100	Signs and advertising specialties
+641200	Manufacturing industries, n.e.c.
+650100	Railroads and related services
+650200	Local and suburban transit and interurban highway passenger transportation
+650301	Trucking and courier services, except air
+650302	Warehousing and storage
+650400	Water transportation
+650500	Air transportation
+650600	Pipelines, except natural gas
+650701	Freight forwarders and other transportation services
+650702	Arrangement of passenger transportation
+660100	Telephone, telgraph communications, and communications services n.e.c.
+660200	Cable and other pay television services
+670000	Radio and TV broadcasting
+680100	Electric services (utilities)
+680201	Natural gas transportation
+680202	Natural gas distribution
+680301	Water supply and sewerage systems
+680302	Sanitary services, steam supply, and irrigation systems
+690100	Wholesale trade
+690200	Retail trade, except eating and drinking
+700100	Banking
+700200	Credit agencies other than banks
+700300	Security and commodity brokers
+700400	Insurance carriers
+700500	Insurance agents, brokers, and services
+710100	Owner-occupied dwellings
+710201	Real estate agents, managers, operators, and lessors
+710202	Royalties
+720101	Hotels
+720102	Other lodging places
+720201	Laundry, cleaning, garment services, and shoe repair
+720202	Funeral service and crematories
+720203	Portrait photographic studios, and other miscellaneous personal services
+720204	Electrical repair shops
+720205	Watch, clock, jewelry, and furniture repair
+720300	Beauty and barber shops
+730101	Miscellaneous repair shops
+730102	Services to dwellings and other buildings
+730103	Personnel supply services
+730104	Computer and data processing services
+730106	Detective and protective services
+730107	Miscellaneous equipment rental and leasing
+730108	Photofinishing labs and commercial photography
+730109	Other business services
+730111	Management and public relations services
+730112	Research, development, and testing services, except noncommercial
+730200	Advertising
+730301	Legal services
+730302	Engineering, architectural, and surveying services
+730303	Accounting, auditing and bookkeeping, and miscellaneous services, n.e.c.
+740000	Eating and drinking places
+750001	Automotive rental and leasing, without drivers
+750002	Automotive repair shops and services
+750003	Automobile parking and car washes
+760101	Motion picture services and theaters
+760102	Video tape rental
+760201	Theatrical producers (except motion picture), bands, orchestras and entertainers
+760202	Bowling centers
+760203	Professional sports clubs and promoters
+760204	Racing, including track operation
+760205	Physical fitness facilities and membership sports and recreation clubs
+760206	Other amusement and recreation services
+770100	Doctors and dentists
+770200	Hospitals
+770301	Nursing and personal care facilities
+770303	Other medical and health services
+770304	Veterinary services
+770305	Other medical and health services
+770401	Elementary and secondary schools
+770402	Colleges, universities, and professional schools
+770403	Private libraries, vocational schools, and educational services, n.e.c.
+770501	Business associations and professional membership organizations
+770502	Labor organizations, civic, social, and fraternal associations
+770503	Religious organizations
+770504	Other membership organizations
+770600	Job training and related services
+770700	Child day care services
+770800	Residential care
+770900	Social services, n.e.c.
+780100	U.S. Postal Service
+780200	Federal electric utilities
+780500	Other Federal Government enterprises
+790100	State and local government passenger transit
+790200	State and local government electric utilities
+790300	Other State and local government enterprises
+800000	Noncomparable imports
+810001	Scrap
+810002	Used and secondhand goods
+820000	General government industry
+830001	Rest of the world adjustment to final uses
+840000	Household industry
+850000	Inventory valuation adjustment
+880000	Compensation of employees
+890000	Indirect business tax and nontax liability
+900000	Other value added
+910000	Personal consumption expenditures
+920000	Gross private fixed investment
+930000	Change in business inventories
+940000	Exports of goods and services
+950000	Imports of goods and services
+9600I0	Federal Government gross investment, national defense, gross investment
+9600C0	Federal Government consumption expenditures, national defense, consumption expenditures
+9700I0	Federal Government gross investment, nondefense
+9700C0	Federal Government consumption expenditures, nondefense, consumption expenditures
+9800I1	State and local government gross investment, elementary and secondary public school systems, gross investment
+9800I2	State and local government gross investment, public educational facilities beyond high school, gross investment
+9800I3	State and local government gross investment, other education and libraries, gross investment
+9800C1	State and local government consumption expenditures, elementary and secondary public school systems, consumption expenditures
+9800C2	State and local government consumption expenditures, public educational facilities beyond high school, consumption expenditures
+9800C3	State and local government consumption expenditures, other education and libraries, consumption expenditures
+9910I1	State and local government gross investment, hospitals and categorical health programs, gross investment
+9910I2	State and local government gross investment, public welfare institutions and activities, gross investment
+9910I3	State and local government gross investment, public sewerage systems, gross investment
+9910I4	State and local government gross investment, sanitation, gross investment
+9910C1	State and local government consumption expenditures, hospitals and categorical health programs, consumption expenditures
+9910C2	State and local government consumption expenditures, public welfare institutions and activities, consumption expenditures
+9910C4	State and local government consumption expenditures, sanitation, consumption expenditures
+9920I1	State and local government gross investment, police, gross investment
+9920I2	State and local government gross investment, fire fighting organizations and auxiliary services, gross investment
+9920I3	State and local government gross investment, correctional institutions, gross investment
+9920C1	State and local government consumption expenditures, police, consumption expenditures
+9920C2	State and local government consumption expenditures, fire fighting organizations and auxiliary services, consumption expenditures
+9920C3	State and local government consumption expenditures, correctional institutions, consumption expenditures
+9930I1	State and local government gross investment, public highways, gross investment
+9930I2	State and local government gross investment, waterports and airports, gross investment
+9930I3	State and local government gross investment, government-operated transit systems, gross investment
+9930I4	State and local government gross investment, other commerce activities n.e.c., gross investment
+9930I5	State and local government gross investment, gas and electric utilities, gross investment
+9930I6	State and local government gross investment, government-operated water supply facilities, gross investment
+9930I7	State and local government gross investment, redevelopment projects, gross investment
+9930I8	State and local government gross investment, natural and agricultural resources and recreation facilities, gross investment
+9930I9	State and local government gross investment, other general government activities, n.e.c, gross investment
+9930C1	State and local government consumption expenditures, public highways (non-capital expenditures of toll roads), consumption expenditures
+9930C8	State and local government consumption expenditures, natural and agricultural resources and recreation facilities, consumption expenditures
+9930C9	State and local government consumption expenditures, other general government activities, n.e.c, consumption expenditures
+

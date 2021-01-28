@@ -1,0 +1,24 @@
+                                                        August 8, 1991
+
+               Commodity Credit Corporation Inputs
+
+       NOTE:  In the derivation of the commodity-by-industry direct
+       requirements coefficients (field I), the use table cell (field C)
+       for records with consuming industry (column code) 78, Federal
+       Government enterprises, was adjusted to exclude the inputs of
+       the Commodity Credit Corporation.  The excluded inputs are as 
+       follows:
+
+   
+   		   Commodity                      Value
+   		     (row)                (Millions of dollars)
+   				  
+                       01                              -.1
+                       02                          1,993.4
+                       14                            762.5
+                       27                               .1
+                       65                            447.0
+                       78                            296.0
+                       90                          3,498.9
+   				  
+   				  

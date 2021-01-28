@@ -1,0 +1,677 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\HS_sector_definition\HS_Shares_by_Industry.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Dec 2020, 19:01:22
+{txt}
+{com}. 
+. *Define the Period of Study and Other Global Variables 
+. global Initial_Year 1977
+{txt}
+{com}. global Final_Year   2005
+{txt}
+{com}. global age_groups "Age1 Age2 Age3 Age4 Age5 Age6 Age7 Age8"
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *The Data in the WorldKLEMS Excel File comes in three different sheets (COMP,EMP,H_EMP). 
+. *Here we pull the data from each sheet and combine them together in the same dataset 
+. 
+. *COMP: Labour compensation per hour worked (U.S. dollars per hour)
+. import excel Auxiliary_Files/usa_wk_apr_2013_labour.xlsx,  sheet("COMP") firstrow
+{res}{text}(13 vars, 49,848 obs)
+
+{com}. 
+. **Drop from the sample the years including for bridging purposes (they cause problems when merging the data sometimes)
+. drop if Year == 19922 | Year == 20022 | Year == 20032
+{txt}(2,232 observations deleted)
+
+{com}. 
+. foreach age of global age_groups {c -(}
+{txt}  2{com}.         rename `age' wage_`age'
+{txt}  3{com}. {c )-}
+{res}{txt}
+{com}. 
+. egen     id = concat(Year Industry Class Sex Education)
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: all characters numeric; {res}replaced {txt}as {res}long
+{txt}
+{com}. 
+. save Auxiliary_Files/WK_2013_COMP.dta, replace
+{txt}(note: file Auxiliary_Files/WK_2013_COMP.dta not found)
+file Auxiliary_Files/WK_2013_COMP.dta saved
+
+{com}. 
+. *EMP: Total persons engaged
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. import excel Auxiliary_Files/usa_wk_apr_2013_labour.xlsx, sheet("EMP") firstrow
+{res}{text}(13 vars, 49,848 obs)
+
+{com}. **Drop from the sample the years including for bridging purposes (they cause problems when merging the data sometimes)
+. drop if Year == 19922 | Year == 20022 | Year == 20032
+{txt}(2,232 observations deleted)
+
+{com}. 
+. foreach age of global age_groups {c -(}
+{txt}  2{com}.         rename `age' emp_`age'
+{txt}  3{com}. {c )-}
+{res}{txt}
+{com}. 
+. egen     id = concat(Year Industry Class Sex Education)
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: all characters numeric; {res}replaced {txt}as {res}long
+{txt}
+{com}. 
+. save Auxiliary_Files/WK_2013_EMP.dta, replace
+{txt}(note: file Auxiliary_Files/WK_2013_EMP.dta not found)
+file Auxiliary_Files/WK_2013_EMP.dta saved
+
+{com}. 
+. *H_EMP: Average number of hours worked per week
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. import excel Auxiliary_Files/usa_wk_apr_2013_labour.xlsx, sheet("H_EMP") firstrow
+{res}{text}(13 vars, 49,848 obs)
+
+{com}. 
+. **Drop from the sample the years including for bridging purposes (they cause problems when merging the data sometimes)
+. drop if Year == 19922 | Year == 20022 | Year == 20032
+{txt}(2,232 observations deleted)
+
+{com}. 
+. foreach age of global age_groups {c -(}
+{txt}  2{com}.         rename `age' h_emp_`age'
+{txt}  3{com}. {c )-}
+{res}{txt}
+{com}. 
+. egen     id = concat(Year Industry Class Sex Education)
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: all characters numeric; {res}replaced {txt}as {res}long
+{txt}
+{com}. 
+. save Auxiliary_Files/WK_2013_H_EMP.dta, replace
+{txt}(note: file Auxiliary_Files/WK_2013_H_EMP.dta not found)
+file Auxiliary_Files/WK_2013_H_EMP.dta saved
+
+{com}. 
+. merge m:m id using Auxiliary_Files/WK_2013_COMP.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}          47,616{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. merge m:m id using Auxiliary_Files/WK_2013_EMP.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}          47,616{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *All the variables are in the same dataset now. Here we perform some basic calculations.
+. 
+. *Keep Employees Only (Discard Self-Employed Workers)
+. ** The ranking is not affected if all workers are used, at least for the top six industries.  
+. keep if Class == 1
+{txt}(23,808 observations deleted)
+
+{com}. 
+. *Generate Weekly Compensation and Weekly Hours Worked at the Cell Level
+. foreach age of global age_groups {c -(}
+{txt}  2{com}.         gen comp_`age'       = ( wage_`age' )*( h_emp_`age')*( emp_`age' )
+{txt}  3{com}.         gen tot_hours_`age'  = ( h_emp_`age')*( emp_`age' )
+{txt}  4{com}. {c )-}
+{txt}
+{com}. 
+. drop h_emp_* wage_* 
+{txt}
+{com}. 
+. *Aggregate Hours, Employment, and Compensation Across Age Groups
+. 
+. gen tot_comp  = comp_Age1 + comp_Age2 + comp_Age3 + comp_Age4 + comp_Age5 + comp_Age6 + comp_Age7 + comp_Age8
+{txt}
+{com}. 
+. gen tot_hours = tot_hours_Age1 + tot_hours_Age2 + tot_hours_Age3 + tot_hours_Age4 + tot_hours_Age5 + tot_hours_Age6 + tot_hours_Age7 + tot_hours_Age8
+{txt}
+{com}. 
+. gen tot_emp   = emp_Age1 + emp_Age2 + emp_Age3 + emp_Age4 + emp_Age5 + emp_Age6 + emp_Age7 + emp_Age8
+{txt}
+{com}. *-------------------------------------------------------------------------------                         
+. 
+. *-------------------------------------------------------------------------------
+. *Define the Sets of HS and LS Workers
+. 
+. *High-Skill Labor (College Complete and Above)
+. gen     skill_group = 1 if Education   >= 5
+{txt}(15,872 missing values generated)
+
+{com}. 
+. *Low-Skill Labor (Less than College Complete)
+. replace skill_group = 2 if skill_group == .
+{txt}(15,872 real changes made)
+
+{com}. 
+. label define labor_skill_labels 1 "HS" 2 "LS"
+{txt}
+{com}. label values skill_group labor_skill_labels
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------                         
+. *Compute the Shares of High-Skill Labor in Compensation, Hours, and Employment at the Industry Level for the Period of 1977-2005
+. keep if Year >= $Initial_Year & Year <= $Final_Year
+{txt}(13,020 observations deleted)
+
+{com}. 
+. drop comp_* emp_* tot_hours_*
+{txt}
+{com}. order Year Industry Sex Class Education skill_group,first
+{txt}
+{com}. drop id
+{txt}
+{com}. 
+. ** Compute Total Compensation, Employment, and Hours by Skill Group for each Year and Industry
+. collapse (sum) tot_comp tot_hours tot_emp, by(Year Industry skill_group)
+{txt}
+{com}. 
+. bys Year Industry: egen tot_comp_ind   = total(tot_comp)
+{txt}
+{com}. bys Year Industry: egen tot_hours_ind  = total(tot_hours)
+{txt}
+{com}. bys Year Industry: egen tot_emp_ind    = total(tot_emp)
+{txt}
+{com}. 
+. ** Compute the Share of Total Compensation, Employment, and Hours by Skill Group for each Year and Industry
+. gen hs_comp_share_ind  = tot_comp/tot_comp_ind
+{txt}
+{com}. gen hs_hours_share_ind = tot_hours/tot_hours_ind
+{txt}
+{com}. gen hs_emp_share_ind   = tot_emp/tot_emp_ind
+{txt}
+{com}. 
+. ** Keep the Shares of High-Skill Labor Only
+. keep if skill_group == 1
+{txt}(899 observations deleted)
+
+{com}. gsort + Year Industry 
+{txt}
+{com}. gsort + Year - hs_comp_share_ind
+{txt}
+{com}. 
+. rename tot_comp      HS_comp
+{res}{txt}
+{com}. rename tot_hours     HS_hours
+{res}{txt}
+{com}. rename tot_emp       HS_emp
+{res}{txt}
+{com}. rename tot_comp_ind  tot_comp_by_ind  
+{res}{txt}
+{com}. rename tot_hours_ind tot_hours_by_ind 
+{res}{txt}
+{com}. rename tot_emp_ind   tot_emp_by_ind
+{res}{txt}
+{com}. drop skill_group
+{txt}
+{com}. 
+. ** Create and Auxiliary .dta file with the shares of High-Skill Labor's Compensation, Hours, and Employment by Year and Industry
+. save Auxiliary_Files/HS_labor_shares_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}(note: file Auxiliary_Files/HS_labor_shares_1977_2005.dta not found)
+file Auxiliary_Files/HS_labor_shares_1977_2005.dta saved
+
+{com}. 
+. ** Add Industry Labels to the .dta file created in the line above
+. import excel Auxiliary_Files/usa_wk_apr_2013_labour.xlsx, sheet("Notes") cellrange(A18:C49) firstrow clear
+{res}{text}(3 vars, 31 obs)
+
+{com}. rename Number Industry
+{res}{txt}
+{com}. save Auxiliary_Files/Industry_Labels.dta, replace
+{txt}(note: file Auxiliary_Files/Industry_Labels.dta not found)
+file Auxiliary_Files/Industry_Labels.dta saved
+
+{com}. 
+. use Auxiliary_Files/HS_labor_shares_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta
+{txt}
+{com}. merge m:m Industry using "Auxiliary_Files/Industry_Labels.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             899{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. gsort + Year Industry 
+{txt}
+{com}. order Year Industry ISICRev3code Description
+{txt}
+{com}. drop _merge
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *Generate Rankings of High-Skill Labor Intensity for Each Employment Measure
+. bys Year     : egen rank_comp       = rank(-hs_comp_share_ind)
+{txt}
+{com}. bys Year     : egen rank_hours      = rank(-hs_hours_share_ind)
+{txt}
+{com}. bys Year     : egen rank_emp        = rank(-hs_emp_share_ind)
+{txt}
+{com}. 
+. *Generate Average High-Skill Labor Intensity for Each Employment Measure
+. bys Industry : egen avg_rank_comp   = mean(rank_comp)
+{txt}
+{com}. bys Industry : egen avg_rank_hours  = mean(rank_hours)
+{txt}
+{com}. bys Industry : egen avg_rank_emp    = mean(rank_emp)
+{txt}
+{com}. 
+. *Generate Average Rankins of High-Skill Labor Intensity for Each Employment Measure
+. bys Industry : egen avg_share_comp  = mean(hs_comp_share_ind)
+{txt}
+{com}. bys Industry : egen avg_share_hours = mean(hs_hours_share_ind)
+{txt}
+{com}. bys Industry : egen avg_share_emp   = mean(hs_emp_share_ind)
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *Before producing the final table with the average shares and ranks between 1977 and 2005, we produce a .dta file to ease data exploration at the annual level, 
+. ** This file contains total compensation, employment, and hours by Industry and Year, the shares of high skill compensation, hours, and employment by Industry and Year, and the Industry ranks in terms of high-skill intensity under these three employment measures
+. 
+. sort Year Industry
+{txt}
+{com}. save Auxiliary_Files/HS_labor_shares_${c -(}Initial_Year{c )-}_${c -(}Final_Year{c )-}.dta, replace
+{txt}file Auxiliary_Files/HS_labor_shares_1977_2005.dta saved
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Here we Produce the Final Table with the Average High-Skill Labor Shares by Industry the and Average Industry Ranks in terms of High-Skill Intensity between 1977 and 2005
+. ** The Data in Section 2.2 of the Paper and the Table in Section 2 of the Online Appendix are based on the Following Table
+. 
+. keep if Year == 1977
+{txt}(868 observations deleted)
+
+{com}. keep Industry ISICRev3code Description avg_share_comp avg_rank_comp avg_share_hours avg_rank_hours avg_share_emp avg_rank_emp
+{txt}
+{com}. order Industry ISICRev3code Description avg_share_comp avg_rank_comp avg_share_hours avg_rank_hours avg_share_emp avg_rank_emp
+{txt}
+{com}. sort avg_rank_comp
+{txt}
+{com}. list
+
+     {txt}{c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  1. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      28                    {txt}{c |}                   {res}       M                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                                         Education {txt}{c |} {res}.7683218 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}       1     {txt}{c |}     {res} .649671     {txt}{c |}     {res}       1     {txt}{c |}     {res}.5900209     {txt}{c |}     {res}       1      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  2. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      26                    {txt}{c |}                   {res}   71t74                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                     Renting of m&eq and other business activities {txt}{c |} {res}.5130532 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}2.413793     {txt}{c |}     {res} .391743     {txt}{c |}     {res}2.310345     {txt}{c |}     {res}.3541523     {txt}{c |}     {res}2.482759      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  3. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      24                    {txt}{c |}                   {res}       J                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                          Financial intermediation {txt}{c |} {res}.5035088 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}2.862069     {txt}{c |}     {res}.3493287     {txt}{c |}     {res}3.310345     {txt}{c |}     {res}.3202302     {txt}{c |}     {res} 3.37931      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  4. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      29                    {txt}{c |}                   {res}       N                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                            Health and social work {txt}{c |} {res}.4540518 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}4.448276     {txt}{c |}     {res}.3122572     {txt}{c |}     {res}4.655172     {txt}{c |}     {res}.2867026     {txt}{c |}     {res}4.724138      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  5. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       8                    {txt}{c |}                   {res}      24                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                   Chemicals and chemical products {txt}{c |} {res}.4455834 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}4.965517     {txt}{c |}     {res}.3315309     {txt}{c |}     {res}4.586207     {txt}{c |}     {res}.3094784     {txt}{c |}     {res}4.344828      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  6. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      25                    {txt}{c |}                   {res}      70                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                            Real estate activities {txt}{c |} {res}.4191124 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}6.068965     {txt}{c |}     {res} .295023     {txt}{c |}     {res}       6     {txt}{c |}     {res}.2684992     {txt}{c |}     {res}6.482759      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  7. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      13                    {txt}{c |}                   {res}   30t33                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                  Electrical and optical equipment {txt}{c |} {res} .398601 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}7.275862     {txt}{c |}     {res}.2783487     {txt}{c |}     {res} 7.62069     {txt}{c |}     {res}.2584115     {txt}{c |}     {res}7.689655      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  8. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      27                    {txt}{c |}                   {res}       L                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                              Public admin and defence; compulsory social security {txt}{c |} {res}.3776083 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}7.965517     {txt}{c |}     {res}.2479326     {txt}{c |}     {res}9.655172     {txt}{c |}     {res}.2274446     {txt}{c |}     {res}9.793103      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+  9. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       7                    {txt}{c |}                   {res}      23                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                  Coke refined petroleum products and nuclear fuel {txt}{c |} {res} .368666 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}8.620689     {txt}{c |}     {res}.2760782     {txt}{c |}     {res}7.448276     {txt}{c |}     {res}.2647297     {txt}{c |}     {res}6.689655      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 10. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      19                    {txt}{c |}                   {res}      50                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}     Wholesale trade and commission trade except of motor vehicles and motorcycles {txt}{c |} {res}.3445033 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}10.44828     {txt}{c |}     {res}.2435038     {txt}{c |}     {res}10.41379     {txt}{c |}     {res}.2259084     {txt}{c |}     {res}10.10345      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 11. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      15                    {txt}{c |}                   {res}   36t37                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                      Manufacturing nec; recycling {txt}{c |} {res}.3218409 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}11.65517     {txt}{c |}     {res}.2089766     {txt}{c |}     {res}14.82759     {txt}{c |}     {res}.1886738     {txt}{c |}     {res}15.41379      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 12. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       6                    {txt}{c |}                   {res}   21t22                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                 Pulp paper paper products printing and publishing {txt}{c |} {res}.3224962 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}      12     {txt}{c |}     {res}.2318357     {txt}{c |}     {res}11.72414     {txt}{c |}     {res}.2142515     {txt}{c |}     {res}11.72414      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 13. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      30                    {txt}{c |}                   {res}       O                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                      Other community social and personal services {txt}{c |} {res}.3028848 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}13.06897     {txt}{c |}     {res}.2331493     {txt}{c |}     {res}11.55172     {txt}{c |}     {res}.2066063     {txt}{c |}     {res}12.72414      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 14. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       2                    {txt}{c |}                   {res}       C                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                              Mining and quarrying {txt}{c |} {res}.2913332 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}13.96552     {txt}{c |}     {res}.1807177     {txt}{c |}     {res}16.24138     {txt}{c |}     {res}.1803743     {txt}{c |}     {res}15.51724      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 15. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      16                    {txt}{c |}                   {res}       E                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                  Electricity gas and water supply {txt}{c |} {res}.2779103 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}15.24138     {txt}{c |}     {res}.2199635     {txt}{c |}     {res}      13     {txt}{c |}     {res}.2090994     {txt}{c |}     {res}12.58621      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 16. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      14                    {txt}{c |}                   {res}   34t35                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                               Transport equipment {txt}{c |} {res}.2714252 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}15.58621     {txt}{c |}     {res}.1987612     {txt}{c |}     {res}15.58621     {txt}{c |}     {res}.1880823     {txt}{c |}     {res}15.34483      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 17. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      23                    {txt}{c |}                   {res}      64                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                       Post and telecommunications {txt}{c |} {res}.2617765 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}16.75862     {txt}{c |}     {res}.2180802     {txt}{c |}     {res}13.31034     {txt}{c |}     {res}.2058306     {txt}{c |}     {res}13.03448      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 18. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      20                    {txt}{c |}                   {res}      52                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}  Retail trade except of motor vehicles and motorcycles; repair of household goods {txt}{c |} {res} .240762 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}18.17241     {txt}{c |}     {res}.1593468     {txt}{c |}     {res}18.75862     {txt}{c |}     {res} .133679     {txt}{c |}     {res} 19.7931      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 19. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      12                    {txt}{c |}                   {res}      29                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                                     Machinery nec {txt}{c |} {res}.2386073 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}18.58621     {txt}{c |}     {res}.1583529     {txt}{c |}     {res}      19     {txt}{c |}     {res}.1486847     {txt}{c |}     {res}18.82759      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 20. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       3                    {txt}{c |}                   {res}   15t16                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                               Food products beverages and tobacco {txt}{c |} {res}.2259141 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}20.06897     {txt}{c |}     {res}.1405431     {txt}{c |}     {res}21.27586     {txt}{c |}     {res}.1244855     {txt}{c |}     {res}21.62069      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 21. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      22                    {txt}{c |}                   {res}   60t63                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                             Transport and storage {txt}{c |} {res}.2097414 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}21.82759     {txt}{c |}     {res}  .14955     {txt}{c |}     {res}19.86207     {txt}{c |}     {res}.1470946     {txt}{c |}     {res}18.62069      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 22. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       9                    {txt}{c |}                   {res}      25                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                      Rubber and plastics products {txt}{c |} {res}.2045979 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}21.86207     {txt}{c |}     {res} .127266     {txt}{c |}     {res}23.06897     {txt}{c |}     {res}.1152055     {txt}{c |}     {res} 23.2069      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 23. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      10                    {txt}{c |}                   {res}      26                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                               Other non-metallic mineral products {txt}{c |} {res}.1833106 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}24.37931     {txt}{c |}     {res} .119161     {txt}{c |}     {res} 24.2069     {txt}{c |}     {res}.1109224     {txt}{c |}     {res}24.03448      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 24. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      18                    {txt}{c |}                   {res}      51                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}Sale maintenance and repair of motor vehicles and motorcycles; retail sale of fuel {txt}{c |} {res}.1810398 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}24.68966     {txt}{c |}     {res}.1338441     {txt}{c |}     {res}21.82759     {txt}{c |}     {res}.1170398     {txt}{c |}     {res}22.31034      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 25. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      11                    {txt}{c |}                   {res}   27t28                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                        Basic metals and fabricated metal products {txt}{c |} {res}.1803245 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res} 24.7931     {txt}{c |}     {res}.1178991     {txt}{c |}     {res}24.51724     {txt}{c |}     {res}.1108425     {txt}{c |}     {res}23.82759      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 26. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       1                    {txt}{c |}                   {res}     AtB                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                          Agriculture hunting forestry and fishing {txt}{c |} {res}.1689712 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}25.44828     {txt}{c |}     {res}.1040827     {txt}{c |}     {res}26.96552     {txt}{c |}     {res}.0931658     {txt}{c |}     {res}26.68966      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 27. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       4                    {txt}{c |}                   {res}   17t19                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                    Textiles textile products leather and footwear {txt}{c |} {res}.1716275 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}26.34483     {txt}{c |}     {res}.0831115     {txt}{c |}     {res}28.89655     {txt}{c |}     {res}.0764012     {txt}{c |}     {res}28.62069      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 28. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      21                    {txt}{c |}                   {res}       H                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                            Hotels and restaurants {txt}{c |} {res}.1581085 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}27.10345     {txt}{c |}     {res}.1041702     {txt}{c |}     {res}26.93103     {txt}{c |}     {res}.0807409     {txt}{c |}     {res}28.55172      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 29. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      17                    {txt}{c |}                   {res}       F                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                                      Construction {txt}{c |} {res}.1461146 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}28.51724     {txt}{c |}     {res}.1036791     {txt}{c |}     {res}27.13793     {txt}{c |}     {res}.0930103     {txt}{c |}     {res} 26.7931      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 30. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}       5                    {txt}{c |}                   {res}      20                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                                Wood and products of wood and cork {txt}{c |} {res}.1434712 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}28.86207     {txt}{c |}     {res}.0835756     {txt}{c |}     {res}29.31034     {txt}{c |}     {res}.0762719     {txt}{c |}     {res}29.06897      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+     {c TLC}{hline 47}{c TT}{hline 47}{c TRC}
+ 31. {c |}                   Industry                    {c |}                   ISICRe~e                    {c |}
+     {c |}                   {res}      31                    {txt}{c |}                   {res}       P                    {txt}{c |}
+     {c LT}{hline 47}{c BT}{hline 36}{c TT}{hline 10}{c RT}
+     {c |}                                                                        Description {c |} a~e_comp {c |}
+     {c |} {res}                                          Private households with employed persons {txt}{c |} {res}.0870161 {txt}{c |}
+     {c LT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 18}{c TT}{hline 8}{c BT}{hline 10}{c RT}
+     {c |}     a~k_comp     {c |}     avg_sh~s     {c |}     avg_ra~s     {c |}     av~e_emp     {c |}     av~k_emp      {c |}
+     {c |}     {res}      31     {txt}{c |}     {res}.0526468     {txt}{c |}     {res}      31     {txt}{c |}     {res}.0498813     {txt}{c |}     {res}      31      {txt}{c |}
+     {c BLC}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 18}{c BT}{hline 19}{c BRC}
+
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\HS_sector_definition\HS_Shares_by_Industry.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 9 Dec 2020, 19:02:02
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

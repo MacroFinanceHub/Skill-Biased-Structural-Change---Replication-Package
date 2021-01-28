@@ -1,0 +1,23 @@
+                                                
+TBL5-87.FMT                                             May 5, 1994
+
+File layout for TBL5-87.DAT, Table 5.--Industry-by-Commodity Total
+Requirements
+
+     ----------------------------------------
+      Column            Description
+     ----------------------------------------
+       1 - 5            Industry I-O code
+
+       7 -11            Commodity I-O code
+
+      13 -13            Table reference number (5)
+
+      17 -25            Total requirements coefficients.  These values show
+                        the production required both directly and indirectly
+                        of the industry named by the industry code per dollar
+                        of delivery to final use of the commodity named by the
+                        commodity code.  Coefficients are shown to seven
+                        decimal places.
+
+

@@ -1,0 +1,30 @@
+
+
+
+
+TIndOut.fmt                                      November 18, 1997
+
+File layout for TIndOut.txt:
+
+Total Industry Output Multipliers
+   ------------------------------------------------------------
+       Field               Description
+   ------------------------------------------------------------
+         1        Industry I-O code
+
+         2        Table reference number (7)
+
+         3        Total industry output multipliers.  Values are the column
+                  sums of the data on the industry-by-commodity total
+                  requirements table.  The value shows the total output
+                  required by all industries, both directly and indirectly,
+                  for each dollar of final use.  
+     ------------------------------------------------------------
+
+
+
+
+
+
+
+

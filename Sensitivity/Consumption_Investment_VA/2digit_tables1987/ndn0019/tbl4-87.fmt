@@ -1,0 +1,22 @@
+TBL4-87.FMT                                                May 5, 1994
+
+
+File layout for TBL4-87.DAT, Table 4.--Commodity-by-Commodity Total
+Requirements
+
+     ----------------------------------------
+      Column            Description
+     ----------------------------------------
+       1 - 5            Commodity I-O code
+
+       7 -11            Commodity I-O code
+
+      13 -13            Table reference number (4)
+
+      17 -25            Total requirements coefficients.  These values show    
+                        the production required both directly and indirectly   
+                        for the commodity named by the row code per dollar of
+                        each commodity (column code) delivered to final users.
+                        Coefficients are shown to seven decimal places.
+
+

@@ -1,0 +1,66 @@
+SICUse.fmt                                  November 1, 1997
+
+File layout for SICUse.txt: The Use of Commodities by 
+                            Industries SIC definition
+-------------------------------------------------------------
+ Field         Description
+-------------------------------------------------------------
+
+  1       Commodity I-O code
+
+  2       Industry I-O code
+
+  3       Table reference number (7) 
+
+  4       Use table cell.  These values represent the use of
+          inputs(identified by commodity codes) by industries
+          or final demand(identified by industry codes), in
+          producers' prices.
+
+  5       Margins and transportation costs.  This field contains
+          an entry only when the commodity codes refer to
+          transportation (65A-65E and 68B)and trade (69A and
+          69B).  The entry represents the sum of the costs of
+          distribution (transportation and trade) associated 
+          with all of the inputs consumed by an industry or a
+          final user.
+
+  6       Railroad transportation costs.  Entries in this field
+          represent rail costs to deliver a commodity to the
+          using industry or final user.
+
+  7       Truck transportation costs. Entries in this field
+          represent truck costs to deliver a commodity to the
+          using industry or final user. 
+            
+
+  8       Water transportation costs.  Entries in this field
+          represent water freight costs to deliver a commodity
+          to the using industry or final user.
+ 
+  9       Air transportation costs.  Entries in this field
+          represent air freight costs to deliver a commodity to
+          the using industry or final user. 
+
+  10      Pipeline transportation costs.  Entries in this 
+          field represent oil pipeline transportation costs 
+          to deliver a commodity to the using industry or 
+          final user.
+
+  11      Gas pipeline transportation costs.  Entries in this
+          field represent gas pipeline transportation costs to
+          deliver a commodity to the using industry or final
+          user.
+
+
+  12      Wholesale margin.  Entries in this field represent
+          the wholesale trade margin necessary to deliver a
+          commodity to the using industry or final user.
+          Included in the margin are wholesale sales taxes
+          and excise taxes collected by wholesalers. 
+
+  13      Retail margin.  Entries in this field represent the
+          retail trade margin necessary to deliver a commodity
+          to the using industry or final user.  Included in 
+          the margin are retail sales taxes and excise taxes
+          collected by retailers. 

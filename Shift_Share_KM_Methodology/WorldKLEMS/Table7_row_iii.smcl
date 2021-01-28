@@ -1,0 +1,116 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology/WorldKLEMS/Table7_row_iii.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}28 Dec 2020, 12:38:24
+{txt}
+{com}. 
+. *Choose the period
+. global Initial_Year 1979
+{txt}
+{com}. global Final_Year   1989
+{txt}
+{com}. global age_groups "Age1 Age2 Age3 Age4 Age5 Age6 Age7 Age8"
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * STEP 1: Pull the data, merge, and clean files
+. 
+. * Pull the data from the bridged WorldKLEMS Files
+. * See note 1 in the bottom of this code to see why we use bridged data
+. 
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use      dta_files/comp_bridged.dta
+{txt}
+{com}. keep     Year Industry Sex Class Education Age wage_bridged
+{txt}
+{com}. rename   wage_bridged wage
+{res}{txt}
+{com}. egen     id = concat(Year Industry Class Sex Education Age), punct("_")
+{txt}
+{com}. order    id, first
+{txt}
+{com}. destring id, replace
+{txt}id: contains nonnumeric characters; no {res}replace
+{txt}
+{com}. save     dta_files/WK_2013_COMP.dta, replace
+{txt}(note: file dta_files/WK_2013_COMP.dta not found)
+file dta_files/WK_2013_COMP.dta saved
+
+{com}. 
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use      dta_files/emp_bridged.dta
+{txt}
+{com}. keep     Year Industry Sex Class Education Age Emp_bridged
+{txt}
+{com}. rename   Emp_bridged emp
+{res}{txt}
+{com}. egen     id = concat(Year Industry Class Sex Education Age), punct("_")
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1), local:r(1);}
+
+end of do-file
+
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1), local:r(1);}
+
+{com}. do "/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology/WorldKLEMS/Shift_Share_KM_WK2013_Eff_KM_31Sectors.do"
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. *This .do File Computes the Between Industry Demand Shift Following Katz & Murhpy (1992) 
+. *and using the WordKLEMS 2013 Labour File as Main Data Source.
+. 
+. *Methodology for Demand Shift     : Katz and Murhpy (KM)
+. *Data                             : WorldKLEMS
+. *Sectoral Aggregation             : 31 Sectors
+. *Methodology for Efficiency Units : KM 
+. *Age/Expirience                   : Age
+. *Measure of Sector Size           : Employment Measured in BKRV Efficiency Units/Hours
+. *Results Reported in              : Table 2, Column D, row (vi) Online Appendix for 1979-1989 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. macro drop _all
+{txt}
+{com}. set more off
+{txt}
+{com}. 
+. *Choose the working directory
+. *global dir C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud
+. global dir /home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/
+{txt}
+{com}. 
+. *cd $dir\Shift_Share_KM_Methodology\WorldKLEMS\
+. cd $dir/Shift_Share_KM_Methodology/WorldKLEMS/
+{res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology/WorldKLEMS
+{txt}
+{com}. 
+. * Start a Log File
+. log using Table7_row_iii, replace
+{err}log file already open
+{txt}{search r(604), local:r(604);}
+
+end of do-file
+
+{search r(604), local:r(604);}
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology/WorldKLEMS/Table7_row_iii.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}28 Dec 2020, 12:40:27
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

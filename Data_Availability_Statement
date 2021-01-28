@@ -1,0 +1,116 @@
+
+Data Availability Statement:
+
+1. World KLEMS, United States, Labor File, April 2013 Release
+These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_labour.xlsx .
+We use them in section 2.2 to compute the share of high-skill labor in total compensation by industry and year, the average share of high skill labor compensation in total compensation for the period of 1977 to 2005, and the average industry rank in terms of skill intensity for the period of 1977 to 2005. The average shares of high-skill labor in total compensation and the corresponding average ranks are used to determine which industries belong to the high-skill sector in the papers. The highest shares and ranking are discussed in Section 2.2 of the paper. A detailed Table with average high-skill labor shares and ranks under different employment measures can be found in Section 2 of the Online Appendix.
+
+2. World KLEMS, United States, Labor File, April 2013 Release
+These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_basic.xlsx .
+
+3. EUKLEMS database,  Basic File, November 2009 release. 
+These data are publicly available at http://www.euklems.net/euk09I.shtml .
+Fourteen (14) Countries Used: Australia (AUS), Austria (AUT), Belgium (BEL), Denmark (DNK), Spain (ESP), France (FRA), United Kingdom (UK), Germany (GER), Greece (GRC), Ireland (IRL), Italy(ITA), Japan(JPN), Sweden (SWE), United States-NAICS(USA NAICS)
+These data are used to produce Figure 1 in Section 2.3 of the paper using the .do file Figure1.do and the two alternative versions of Figure 1 using two broader definitions of the High-Skill sector presented in Section 2 of the Online Appendix.
+
+4. EUKLEMS database, Labor Input Files, March 2008 release. 
+These data are publicly available at http://www.euklems.net/euk08I.shtml .
+These data are used to produce the data used in the Cross Country Analysis in Section 8 of the paper. In particular, labor input data is used to compute the share of compensation of high-skill labor in the high- and the low-skill sector and the skill-premium, which are used as inputs in the calibration of the technology paramaters for eleven (11) countries in the Cross Country validation exercise performed in Section 8. The countries used in this exercise are Australia (AUS), Austria (AUT), Belgium (BEL), Denmark (DNK), Spain (ESP), United Kingdom (UK), Germany (GER), Italy(ITA), Japan(JPN), the Netherlands (NLD), and United States-NAICS(USA NAICS). Compared to the countries in figure1 and figure2, we loose France, Greece, Ireland, Luxembourg and Sweden beacuse they do not have a labor input file available.
+
+5. Penn World Tables 9.0 
+The data are described in Feenstra et al. (2015) and are publicly available at https://www.rug.nl/ggdc/productivity/pwt/pwt-releases/pwt9.0 . Cross-country data from this dataset on real GDP (rgdpna) and population (pop) are used in the .do files Figure1.do and Figure2.do to produce Figures 1 and 2.
+
+6. US Bureau of Economic Analysis, Table 1.1.5, Gross Domestic Product
+The Excel spreadsheet containing Annual series for US GDP is in Table 1.1.5 an publicly available at https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=2# . We use this data to compute net good and net service exports as percentage of GDP to perform the sensitivity analysis in Section 7.2 of the paper called "Allowing for Trade".
+
+7. US Census Data, U.S. Trade in Goods and Services, Balance of Payment Basis 
+Annual data on goods and services exports and imports and the corresponding trade balance is publicly available at the US Census' Website at the link https://www.census.gov/foreign-trade/statistics/historical/gands.pdf . We use this data to compute net good and net service exports as percentage of GDP to perform the sensitivity analysis in Section 7.2 of the paper called "Allowing for Trade".
+
+8. US Bureau of Economic Analysis, Table 2.1, U.S. Trade in Services, by Type of Services
+Annual data on services exports and imports by type of services are publicly available at the BEA's website (https://apps.bea.gov/iTable/iTable.cfm?reqid=62&step=6&isuri=1&tablelist=245&product=4). This data is available since 1999. We use it to check if services exports are close to the actual exports of the high skill sector for the period where both series are available (1977-2005). It turns out that services net exports are very close to the net exports of the high-skill sector. 
+
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8. US Input-Output data
+We use these data to carry out the sensitivity analysis in Section 7.1 of the paper, called "Consumption Value Added vs Investment Value Added". In particular, we use US input-output data to compute time series of the High- and Low-Skill Sectors' shares of Value Added in producer’s prices that are generated by final expenditure on consumption and investment (in producer’s prices). Data are available every five years between 1977 and 2002 (see data sources below), and anually between for the period of 1977 and 2005. As a consequence, we perform the analysis for the following years: 2005, 2002, 1997, 1992, 1987, 1982, 1977. 
+
+The excercise requires data from two tables, the Industry-by-Commodity Total Requirements table, and the use Use of Commodities by Industries table. The data used for each year together with the links to access them are presented in the table below:
+
+
+
+
+
+* Industry-by-Commodity Total Requirements at the summary level (71 Industries after redefinitions and in producers' prices)  
+Publicly available at: 
+** 2005: https://apps.bea.gov/iTable/iTable.cfm?reqid=52&step=102&isuri=1&table_list=8&aggregation=sum
+
+* Use of Commodities by Industries at the summary level (71 Industries after redefinitions and in producers' prices)
+Publicly available at: 
+** 2005: https://apps.bea.gov/iTable/iTable.cfm?reqid=58&step=102&isuri=1&table_list=6&aggregation=sum
+
+https://www.bea.gov/industry/benchmark-input-output-data
+
+1997: https://apps.bea.gov/industry/zip/ndn0305.zip
+1992: https://apps.bea.gov/industry/zip/ndn0180.zip
+1987: https://apps.bea.gov/industry/zip/ndn0019.zip
+1982: https://apps.bea.gov/industry/zip/ndn0125.zip
+
+https://www.bea.gov/industry/historical-benchmark-input-output-tables
+
+1977: https://apps.bea.gov/industry/zip/77IO85-Leveltext.zip
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+References:
+Dale W. Jorgenson, Mun S. Ho, and Jon Samuels, “A Prototype Industry‐Level Production Account for the United States, 1947‐2010,” Second World KLEMS Conference, Harvard University, August 9, 2012.
+
+Kirsten Jäger (The Conference Board) EU KLEMS Growth and Productivity Accounts 2017 release - Description of Methodology and General Notes, September 2017, Revised July 2018
+
+Bart van Ark and Kirsten Jäger (2017), Recent Trends in Europe's Output and Productivity Growth Performance at the Sector Level, 2002-2015, International Productivity Monitor, Number 33, Fall 2017
+
+Feenstra, Robert C., I. R. and M. P. Timmer (2015): “The Next Generation of the Penn World Table,” American Economic Review, 105, 3150–3182.
+
+Herrendorf, B., R. Rogerson, and A. Valentinyi(2013): “Two Perspectiveson Preferences and Structural Transformation,”American Economic Review, 103,2752–89.
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Mistakes Found:
+High Skill Sector Definition: The numbers reported in the paper are wrong. There was a mistake at the code at the time of merging the EMP, COMP, and LAB which was causing the average shares and average ranks for the top industries to be lower. None on the statements made in the paper change; 
+
+Figure 1: there was a mistake at the time of appending together the datasets for all countries. This was duplicating the observations for AUS. The regression results change slightly, but the main message is still the same: steeper relationship for LAB than for VA and higher R2 with log gdp per capita alone rather than with country fixed effects alone (even higher than before now).
+
+Figure 2: there was a mistake at the time of appending together the datasets for all countries. This was duplicating the observations for AUS. The regression results change slightly, but the main message is still the same: steeper relationship for LAB than for VA and higher R2 with log gdp per capita alone rather than with country fixed effects alone (even higher than before now).
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+To Do List:
+*  Figure 1                                              -> Nacho - DONE
+*  Figure 2                                              -> Nacho - DONE
+*  Table  1                                              -> Joe
+*  Section 4: Calibration                                -> Nacho - DONE 
+** Table 2                                               -> Done, check with Paco 
+** Table 3                                               -> Paco 
+** Table 4: Calibrated Preference Parameters             -> Paco
+** Page 30: Regression Result                            -> Nacho - DONE
+
+*  Section 5.1: Sources of Changes in the Skill-Premium  -> Paco 
+** Table 5 						   -> Paco
+** Table 6						   -> Paco
+
+*  Section 6: Comparison With Literature
+** Table 7                                               -> Nacho - DONE; table 7 is done; need to polish the files for columns A-C in the Online Appendix and the EUKLEMS demand shifts
+** Section 6.2 Comparison With Leonardi                  -> Paco
+
+*  Section 7: Sensitivity
+
+** Consumption vs Investment Value Added                 -> Nacho  
+** Allowing for Trade                                    -> Nacho
+** Section 7.3: Mismeasurement of Relative Price Changes -> Paco 
+** Section 7.4: Endogeneizing the Supply of Skills       -> Paco
+
+*  Section 8: Cross-Country Analysis                     -> Nacho - DONE
+
+* Appendix I                                             -> Paco
+*---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Table 7: Directory: home/nacho/Dropbox/BKR/Nacho/Data_Appendix/REStud/Shift_Share_KM_Methodology
+
+* Row (i)   Shift_Share_KM_WK2013_Eff_KM_2sectors.do   - Table7_row_i.smcl
+* Row (ii)  Shift_Share_KM_WK2013_VA_KM_2sectors.do    - Table7_row_ii.smcl
+* Row (iii) Shift_Share_KM_WK2013_VA_BKRV_2sectors.do  - Table7_row_iii.smcl
+

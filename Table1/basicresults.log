@@ -1,0 +1,63 @@
+-----------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/nacho/Dropbox/BKR/Nacho/Data_Appendix/RE
+> Stud/Table1/basicresults.log
+  log type:  text
+ opened on:  24 Jun 2020, 16:00:05
+
+. 
+end of do-file
+
+. do "/tmp/SD91839.000000"
+
+. summ
+
+    Variable |        Obs        Mean    Std. Dev.       Mi
+> n        Max
+-------------+---------------------------------------------
+> ------------
+       newid |    101,262     2515252    63233.34    237716
+> 5    2680062
+      ref_mo |          0
+      ref_yr |          0
+    totalexp |    101,262    5602.219    7192.998   2.33333
+> 3     227337
+      Hsectc |    101,262    1435.292    2007.478   .286809
+> 8   102950.1
+-------------+---------------------------------------------
+> ------------
+       Hsect |    101,262    .2362741    .0877702   .094503
+> 4   .9096334
+
+. summ totalexp, detail
+
+                         (sum) cost
+-----------------------------------------------------------
+> --
+      Percentiles      Smallest
+ 1%     632.6667       2.333333
+ 5%         1225       3.333333
+10%     1645.667       3.333333       Obs             101,2
+> 62
+25%     2554.733       3.333333       Sum of Wgt.     101,2
+> 62
+
+50%     4062.667                      Mean           5602.2
+> 19
+                        Largest       Std. Dev.      7192.9
+> 98
+75%         6357       194101.6
+90%     9677.247       203900.9       Variance       5.17e+
+> 07
+95%        13187       204213.4       Skewness       8.0881
+> 01
+99%     36401.51         227337       Kurtosis       111.17
+> 19
+
+. log close 
+      name:  <unnamed>
+       log:  /home/nacho/Dropbox/BKR/Nacho/Data_Appendix/RE
+> Stud/Table1/basicresults.log
+  log type:  text
+ closed on:  24 Jun 2020, 16:00:11
+-----------------------------------------------------------

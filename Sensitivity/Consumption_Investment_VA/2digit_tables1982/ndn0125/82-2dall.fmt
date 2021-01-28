@@ -1,0 +1,150 @@
+                                                        August 8, 1991
+                                                             
+               File Layout Table For: 82-2DALL.txt                    
+-----------------------------------------------------------------------                                                                                                        
+   Field    Positions     Field                Description                                       
+                          Size
+-----------------------------------------------------------------------                                                                                                        
+      A           1-2       2       Row code:  second sort key 
+                                    (ascending)                              
+                                                                                                        
+      B           3-4       2       Column code:  first sort key 
+                                    (ascending)                            
+                                                                                                        
+      C          5-14       10      Use table cell.--These values  
+                                    (including trade and transportation
+		                    margins) represent the use of inputs
+				    (identified by row codes), by
+				    consuming industries or final demand
+	                   	    components (identified by column
+				    codes), in producers' prices.
+							 
+      D        15-24        10      Make table cell.--This field contains the                           
+                                    value of each commodity produced by
+				    the domestic industry, in producers'
+				    prices.  The row code (field A) is
+	                            the producing industry code; it
+				    dentifies the industry producing
+				    the commodity.  The column code
+				    (field B) gives the commodity
+				    produced.
+							 
+      E        25-34        10      Margins.--This field contains an
+                                    entry only when the row codes refer
+				    to transportation (65) and trade
+				    (69). The entry represents the sum
+				    of the costs of distribution
+				    (transportation and trade)
+				    associated with all of the inputs
+				    consumed by an industry or a final
+				    demand component.
+							 
+      F        35-44        10      Transportation  margin.--Entries
+                                    in this field represent total
+				    purchased transportation costs
+				    (rail, truck, water, air, and oil
+				    pipeline) to deliver a commodity
+				    (field A) to the using industry or
+				    final demand component (field B).
+				    This transportation cost is
+				    associated with the commodity 
+				    input shown in producers' prices
+				    (field C.)
+                                                                                            
+      G        45-54        10      Wholesale and retail trade margin.--
+                                    Entries in this field represent the
+				    total trade margin necessary to
+				    deliver a commodity (field A) to the
+				    using industry or final demand
+				    component (field B).  Included in
+				    the margin are sales taxes, State
+				    and local excise taxes imposed  on
+				    wholesale and retail trade, and
+				    Federal excise taxes collected by
+				    retailers.  This trade margin is
+				    associated  with the commodity
+				    input shown in producers' prices
+				    (field C).
+							 
+      H       55-64         10      Blank
+                                                                                            
+      I       65-74         10      Direct requirements per dollar
+                                    of industry output (commodity-by-
+                                    industry coefficients.-- These
+				    entries represent the amount of a
+				    commodity (field A) used by an
+				    industry (field B) per dollar of
+				    output  of that industry. When the
+				    row codes are 88, 89, or 90,
+				    entries in this field represent the
+				    components of value added.  In
+				    Attachment I, these coefficients,
+				    excluding rows 88-90, are identified
+				    as matrix B.
+							 
+      J       75-84         10      Nonscrap  coefficients.--These
+                                    entries appear only where the row
+				    code and column code are identical.
+				    They represent the ratio of the
+				    value of nonscrap output in each
+				    industry to that industry's total
+				    output.  In Attachment I, these
+				    coefficients are identified by the
+	                                                 ^ 
+				    diagonal matrix (I - p).                                            
+                                                                                            
+      K       85-94         10      Commodity-to-industry transformation                                
+                                    coefficients.--These entries
+				    represent the ratio of each
+				    industry's output of a commodity
+				    and associated scrap production  to
+				    the total output of the commodity.
+				    The row code represents the
+				    industry; the column code represents
+				    the commodity.  In Attachment  I,
+				    these coefficients are identified by
+
+							^ -1                                               
+                                    the matrix W = (I - P)  D.                                               
+                                                                                            
+      L       95-104        10      Direct requirements per  dollar  of
+                                    commodity output (commodity-by-
+				    commodity coefficients).- -These
+				    entries represent the amount of each
+				    commodity used (row entry) per unit
+				    of output for a given commodity
+				    (column entry). When the row code is
+				    88, 89, or 90, entries in this field
+				    represent the coefficients for the
+				    components of value added.  In
+				    Attachment I, these coefficients,
+				    excluding rows 88, 89, and 90, are
+				    identified by the matrix BW.
+                                                                                            
+      M      105-114        10      Commodity-by-commodity total
+                                    requirements coefficients.--These
+				    entries represent the amount of
+				    commodity (row) output required per
+				    dollar of each commodity (column)
+				    delivered to final demand.  In
+				    Attachment I, these coefficients are
+				    identified by the matrix
+                                                        -1
+				                (I - BW). 
+							 
+      N      115-124        10      Industry-by-commodity total
+                             	    requirements coefficients.--These
+				    entries represent the industry (row)
+				    output required per dollar of each
+				    commodity (column) delivered to
+				    final demand.  In Attachment I,
+				    these coefficients are identified by
+		                                       -1
+				    the matrix W(I - BW).
+-----------------------------------------------------------------------							 
+                                                                                          
+                                                                                          
+                                                                                          
+                                                                                          
+                                                                                          
+                                                                                          

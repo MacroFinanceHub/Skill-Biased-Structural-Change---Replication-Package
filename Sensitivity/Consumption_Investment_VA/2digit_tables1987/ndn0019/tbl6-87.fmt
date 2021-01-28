@@ -1,0 +1,23 @@
+
+
+TBL6-87.FMT                                      April 30, 1994
+
+File layout for TBL6-87.DAT, Table 6.--Total Industry Output and Final Uses  
+   ------------------------------------------------------------
+          Column               Description
+   ------------------------------------------------------------
+         1 - 5    Industry I-O code
+
+        13 -13    Table reference number (6)
+
+        17 -25    Total industry output or final uses.  Values are the column
+                  sums of the data on the use table.
+     ------------------------------------------------------------
+
+
+
+
+
+
+
+

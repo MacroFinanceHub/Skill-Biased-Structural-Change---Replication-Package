@@ -1,0 +1,112 @@
+
+                                                  April 29, 1994
+
+Documentation for 1987 Benchmark Input-Output Accounts Summary Diskette
+
+----------------------------------------------------------------
+Please make a backup copy of this diskette immediately.
+----------------------------------------------------------------
+
+Source
+
+      The data on this diskette were prepared by the Interindustry Economics
+      Division, Bureau of Economic Analysis BE-51, U.S. Department of
+      Commerce.  Contact Mark Planting (202-606-5585) if you have questions
+      concerning the contents of the diskette.
+
+Ordering information
+
+      Accession number    51-94-40-004
+      Price               $20 per diskette
+      Check payable to    Bureau of Economic Analysis          
+      Address             U.S. Department of Commerce
+                          Public Information Office
+                          Order Desk, BE-53
+                          Bureau of Economic Analysis
+                          Washington, DC  20230
+
+
+Description of data
+
+      This diskette contains data from the 1987 benchmark input-output (I-O)
+      accounts as published in "Benchmark Input-Output Accounts for the U.S.
+      Economy, 1987," SURVEY OF CURRENT BUSINESS 74  (April 1994).  Copies of
+      the article are available from the above address at a cost of $25.
+
+      Methodology, coverage of the data, and data definitions are noted in the
+      SURVEY article describing the benchmark I-O.
+
+      Data files containing the tables are fixed format ASCII files consisting
+      of a row I-O code, a column I-O code, the table reference number, and
+      the cell value(s).  Values represent millions of dollars at producers'
+      prices.  All values are right justified with decimals shown explicitly. 
+      All cells in the tables are included.  No copyrighted data are found in
+      these files.
+
+      The tables containing the 1987 benchmark data (tables 1-9) have been
+      compressed.  Approximately 21 megabytes of disk space are required to
+      uncompress all the data files.
+      
+
+Procedure for using disk
+
+      Copy all diskette files to a directory on your hard disk.  At the DOS
+      prompt, type TBL-87 to uncompress the files.
+
+
+      The I-O tables 1, 2 (includes SURVEY tables 2.1 and 2.2, and
+      transportation costs and wholesale and retail trade margins) , 3, 4, and
+      5 can be converted to a spreadsheet format file using a program
+      contained on this disk (SPREAD.EXE).  To convert the tables, move to the
+      directory where you have copied the benchmark files and type the command
+      SPREAD.  Follow the directions given by the program.  Tables 6 and 7
+      provide, respectively, the column and rows sums for table 2; tables 8
+      and 9 provide, respectively, the column sums for tables 4 and 5.
+
+
+Description of files
+
+      Files included on this diskette are:
+
+      README.DOC    --  Description of the data diskette.
+      IO-CODE.DOC   --  I-O codes and descriptions.
+      IO-CODE.FMT   --  File layout table for IO-CODE.DOC
+      SIC-IO.DOC    --  Detailed I-O codes, descriptions and related SIC's
+      TBL-87.EXE   --   Compressed data files.  Contains: 
+                        Table 1.--The Make of Commodities by Industries, 1987
+                        Benchmark (uncompressed file TBL1-87.DAT) 
+                        Table 2.--The Use of Commodities by Industries, 1987
+                        Benchmark uncompressed file TBL2-87.DAT)
+                        Table 3.--Commodity by Industry Direct Requirements,
+                        1987 Benchmark (uncompressed file TBL3-87.DAT)
+                        Table 4.--Commodity by Commodity Total Requirements,
+                        1987 Benchmark (uncompressed file TBL4-87.DAT)
+                        Table 5.--Industry by Commodity Total Requirements,
+                        1987 Benchmark (uncompressed file TBL5-87.DAT)
+                        Table 6.--Total Industry Output and Final Demand
+                        (column sums for Table 2), (uncompressed file
+                        TBL6-87.DAT)
+                        Table 7.--Total Commodity Output and Value Added (row
+                        sums for Table 2), (uncompressed file TBL7-87.DAT)
+                        Table 8.--Total Commodity Output Multiplier (column
+                        sums for Table 4), (uncompressed file TBL8-87.DAT)
+                        Table 9.--Total Industry Output Multiplier (column
+                        sums for Table 5), (uncompressed file TBL9-87.DAT)
+      TBL1-87.FMT   --  File layout table for TBL1-87.DAT
+      TBL2-87.FMT   --  File layout table for TBL2-87.DAT
+      TBL3-87.FMT   --  File layout table for TBL3-87.DAT
+      TBL4-87.FMT   --  File layout table for TBL4-87.DAT
+      TBL5-87.FMT   --  File layout table for TBL5-87.DAT
+      TBL6-87.FMT   --  File layout table for TBL6-87.DAT
+      TBL7-87.FMT   --  File layout table for TBL7-87.DAT
+      TBL8-87.FMT   --  File layout table for TBL8-87.DAT
+      TBL9-87.FMT   --  File layout table for TBL9-87.DAT
+      MATHIO.DOC    --  Mathematical derivation of I-O accounts
+      SPREAD.EXE    --  Program to convert data tables to spreadsheet file
+                        format
+      README.BAT    --  DOS batch program for reading README.DOC
+
+
+
+All files have the read-only attribute set.
+

@@ -1,0 +1,421 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2\Figure2\Figure2.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}14 Dec 2020, 18:48:46
+{txt}
+{com}. 
+. * Define the Countries in the Analysis
+. global EU_KLEMS_countries "aus aut bel dnk esp fra uk ger grc irl ita jpn nld swe usa-naics"
+{txt}
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *  Define The Industries in The High- and the Low-Skill Sector
+. ** Benchmark    : HS Sector includes industries Financial Intermediation(J), Education(M), Health and Social Work(N), Renting of m&eq and other business activities (71t74)
+. ** Alternative 1: Adding Real Estate (70) and Chemicals (24) to the HS Sector 
+. ** Alternative 2: Adding Real Estate (70), Chemicals (24), Public Adm (L), and Elec and Opt Equip (30t33) to the HS Sector 
+. 
+. ** Note: Make sure to define the set of HS Industries Accordingly in the chain_price_indices.do file.
+. 
+. global set "benchmark"
+{txt}
+{com}. *global set "Alt1"
+. *global set "Alt2"
+. *-----------------
+. ** Low-Skill Industries
+. 
+. if "$set" == "benchmark"{c -(}
+. global LS_ind "AtB C D E F G H I 70 L O P"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt1"{c -(}
+. global LS_ind "AtB C 15t16 17t19 20 21t22 23 25 26 27t28 29 30t33 34t35 36t37 E F G H I L O P"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt2"{c -(}
+. global LS_ind "AtB C 15t16 17t19 20 21t22 23 25 26 27t28 29 34t35 36t37 E F G H I O P"
+. {c )-}
+{txt}
+{com}. 
+. *-----------------
+. ** High-Skill Industries
+. 
+. if "$set" == "benchmark"{c -(}
+. global HS_ind "J M N 71t74"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt1"{c -(}
+. global HS_ind "J M N 71t74 70 24"
+. {c )-}
+{txt}
+{com}. if "$set" == "Alt2"{c -(}
+. global HS_ind "J M N 71t74 70 24  L 30t33"
+. {c )-}
+{txt}
+{com}. macro list
+{txt}{p 0 16}
+HS_ind:{space 9}{res}{res}J M N 71t74
+{p_end}
+{txt}{p 0 16}
+LS_ind:{space 9}{res}{res}AtB C D E F G H I 70 L O P
+{p_end}
+{txt}{p 0 16}
+set:{space 12}{res}{res}benchmark
+{p_end}
+{txt}{p 0 16}
+EU_KLEMS_countries:{break}
+{res}aus aut bel dnk esp fra uk ger grc irl ita jpn nld swe usa-naics
+{p_end}
+{txt}{p 0 16}
+dir:{space 12}{res}{res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud
+{p_end}
+{txt}{p 0 16}
+S_level:{space 8}{res}{res}95
+{p_end}
+{txt}{p 0 16}
+S_ADO:{space 10}{res}{res}BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+{p_end}
+{txt}{p 0 16}
+S_StataSE:{space 6}{res}{res}SE
+{p_end}
+{txt}{p 0 16}
+S_FLAVOR:{space 7}{res}{res}Intercooled
+{p_end}
+{txt}{p 0 16}
+S_OS:{space 11}{res}{res}Windows
+{p_end}
+{txt}{p 0 16}
+S_OSDTL:{space 8}{res}{res}64-bit
+{p_end}
+{txt}{p 0 16}
+S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
+{p_end}
+{txt}
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Run the .do file that produces Chain Price Indices at the Country Level
+. 
+. *do chain_price_indices
+. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Create a .dta File that Combines All the Price Indices
+. cd ..
+{res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2
+{txt}
+{com}. cd      $dir\Figures1&2\dta_files\Prices\HS_Sector_$set
+{res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2\dta_files\Prices\HS_Sector_benchmark
+{txt}
+{com}. 
+. use    aus_VA_P_for_merge.dta
+{txt}
+{com}. global EU_KLEMS_countries "aus aut bel dnk esp fra uk ger grc irl ita jpn nld swe usa-naics"
+{txt}
+{com}. 
+. foreach i of global EU_KLEMS_countries {c -(}
+{txt}  2{com}.                                      append using `i'_VA_P_for_merge.dta
+{txt}  3{com}. {c )-}
+{txt}{p 0 7 2}
+(note: variable
+country_code was 
+str3, now str9 to accommodate using data's values)
+{p_end}
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(36 observations deleted)
+
+{com}. sort country_code Year
+{txt}
+{com}. save  P_indices_combined.dta, replace
+{txt}file P_indices_combined.dta saved
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Merge the Price Indices with GDP per capita Data
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. 
+. cd .. 
+{res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2\dta_files\Prices
+{txt}
+{com}. cd .. 
+{res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2\dta_files
+{txt}
+{com}. use pwt90.dta
+{txt}
+{com}. 
+. keep countrycode year rgdpna pop
+{txt}
+{com}. 
+. gen gdp_pc = rgdpna/pop
+{txt}(2,391 missing values generated)
+
+{com}. rename countrycode country_code
+{res}{txt}
+{com}. 
+. rename year Year
+{res}{txt}
+{com}. replace country_code = "USA-NAICS" if country_code == "USA"
+{txt}variable {bf}country_code{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str9{sf}
+{txt}(65 real changes made)
+
+{com}. replace country_code = "UK"        if country_code == "GBR"
+{txt}(65 real changes made)
+
+{com}. 
+. merge 1:1 Year country_code using Prices\HS_Sector_$set\P_indices_combined.dta
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          11,362
+{txt}{col 9}from master{col 30}{res}          11,326{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              36{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             504{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. keep if _merge == 3 | _merge == 2
+{txt}(11,326 observations deleted)
+
+{com}. sort country_code Year
+{txt}
+{com}. drop _merge
+{txt}
+{com}. 
+. rename country_code countrycode
+{res}{txt}
+{com}. gen log_gdp_pc = ln(gdp_pc)
+{txt}(36 missing values generated)
+
+{com}. save  Prices\HS_Sector_$set\raw_P_Ind_$set.dta, replace
+{txt}file Prices\HS_Sector_benchmark\raw_P_Ind_benchmark.dta saved
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. * Demean the Data to Remove Country Fixed Effects 
+. 
+. 
+.                  egen         avg_log_gdp_pc   =  mean(log_gdp_pc)
+{txt}
+{com}. bys countrycode: egen country_avg_log_gdp_pc   =  mean(log_gdp_pc)
+{txt}(36 missing values generated)
+
+{com}. 
+. gen demeaned_log_gdp_pc         = log_gdp_pc + avg_log_gdp_pc - country_avg_log_gdp_pc
+{txt}(36 missing values generated)
+
+{com}. gen demeaned_gdp_pc             = exp(demeaned_log_gdp_pc)
+{txt}(36 missing values generated)
+
+{com}. 
+. 
+.                  egen         avg_P_chain_relative   =  mean(P_chain_relative)
+{txt}
+{com}. bys countrycode: egen country_avg_P_chain_relative   =  mean(P_chain_relative)
+{txt}
+{com}. 
+. gen demeaned_P_chain_relative    = P_chain_relative + avg_P_chain_relative - country_avg_P_chain_relative
+{txt}(10 missing values generated)
+
+{com}. 
+. replace countrycode = "USA" if countrycode == "USA-NAICS"
+{txt}(36 real changes made)
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. sort countrycode Year
+{txt}
+{com}. reg demeaned_P_chain_relative demeaned_log_gdp_pc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       494
+{txt}{hline 13}{c +}{hline 34}   F(1, 492)       = {res}  1313.31
+{txt}       Model {c |} {res} 57642.0358         1  57642.0358   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 21594.1839       492  43.8906178   {txt}R-squared       ={res}    0.7275
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7269
+{txt}       Total {c |} {res} 79236.2198       493  160.722555   {txt}Root MSE        =   {res}  6.625
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}demeaned_P_chain_~e{col 21}{c |}      Coef.{col 33}   Std. Err.{col 45}      t{col 53}   P>|t|{col 61}     [95% Con{col 74}f. Interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+demeaned_log_gdp_pc {c |}{col 21}{res}{space 2} 47.10868{col 33}{space 2} 1.299921{col 44}{space 1}   36.24{col 53}{space 3}0.000{col 61}{space 4} 44.55459{col 74}{space 3} 49.66276
+{txt}{space 14}_cons {c |}{col 21}{res}{space 2}-386.6907{col 33}{space 2} 13.24643{col 44}{space 1}  -29.19{col 53}{space 3}0.000{col 61}{space 4}-412.7173{col 74}{space 3}-360.6642
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. /*
+> . reg demeaned_P_chain_relative demeaned_log_gdp_pc
+> 
+>       Source |       SS           df       MS      Number of obs   =       494
+> -------------+----------------------------------   F(1, 492)       =   1313.31
+>        Model |  57642.0358         1  57642.0358   Prob > F        =    0.0000
+>     Residual |  21594.1839       492  43.8906178   R-squared       =    0.7275
+> -------------+----------------------------------   Adj R-squared   =    0.7269
+>        Total |  79236.2198       493  160.722555   Root MSE        =     6.625
+> 
+> -------------------------------------------------------------------------------------
+> demeaned_P_chain_~e |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+> --------------------+----------------------------------------------------------------
+> demeaned_log_gdp_pc |   47.10868   1.299921    36.24   0.000     44.55459    49.66276
+>               _cons |  -386.6907   13.24643   -29.19   0.000    -412.7173   -360.6642
+> -------------------------------------------------------------------------------------
+> */
+. 
+. twoway (scatter demeaned_P_chain_relative demeaned_log_gdp_pc if countrycode != "USA", msymbol(S) mcolor(ltbluishgray8) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (scatter demeaned_P_chain_relative demeaned_log_gdp_pc if countrycode == "USA", msymbol(O) mlcolor(black) mlwidth(vvthin) msize(medlarge)) ///
+> (lfit demeaned_P_chain_relative demeaned_log_gdp_pc, lcolor(black) lstyle(thin) msize(large)), ///
+> leg(off) title("High-Skill Intensive Sector Relative Price") ytitle("P{c -(}sub:HS Sectors{c )-} / P{c -(}sub:LS Sectors{c )-}" "{c -(}sub:(1995 = 100){c )-}" , size(medlarge)) xtitle("Real GDP per-capita" "(log scale)" , size(medlarge)) ///
+> text(120 9.75 "y = 47.11 ln(x) - 386.69",size(small)) 
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{p 0 4 2}
+{txt}(note:  named style
+thin not found in class
+linestyle,  default attributes used)
+{p_end}
+{res}{txt}
+{com}. 
+. cd ..
+{res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2
+{txt}
+{com}. graph save Graph Figure2\Figures\figure2_$set.gph, replace
+{res}{txt}(file Figure2\Figures\figure2_benchmark.gph saved)
+
+{com}. graph export     Figure2\Figures\figure2_$set.png, replace
+{txt}(file Figure2\Figures\figure2_benchmark.png written in PNG format)
+
+{com}. graph export     Figure2\Figures\figure2_$set.pdf, replace
+{txt}(file Figure2\Figures\figure2_benchmark.pdf written in PDF format)
+
+{com}. 
+. *Clean up and save figure2.dta
+. save dta_files\Prices\HS_Sector_$set\figure2_$set.dta, replace
+{txt}file dta_files\Prices\HS_Sector_benchmark\figure2_benchmark.dta saved
+
+{com}. *-------------------------------------------------------------------------------
+. 
+. *-------------------------------------------------------------------------------
+. *SENSITIVITY ANALYSIS
+. cls
+{txt}
+{com}. clear all
+{res}{txt}
+{com}. use dta_files\Prices\HS_Sector_$set\raw_P_Ind_$set.dta
+{txt}
+{com}. 
+. encode countrycode, generate(country)
+{txt}
+{com}. reg P_chain_relative log_gdp_pc ib15.country
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       494
+{txt}{hline 13}{c +}{hline 34}   F(14, 479)      = {res}   109.05
+{txt}       Model {c |} {res} 67405.2587        14  4814.66133   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 21147.4225       479  44.1491075   {txt}R-squared       ={res}    0.7612
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7542
+{txt}       Total {c |} {res} 88552.6811       493  179.620043   {txt}Root MSE        =   {res} 6.6445
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}P_chain_re~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}log_gdp_pc {c |}{col 14}{res}{space 2}  47.4738{col 26}{space 2} 1.308786{col 37}{space 1}   36.27{col 46}{space 3}0.000{col 54}{space 4} 44.90212{col 67}{space 3} 50.04547
+{txt}{space 12} {c |}
+{space 5}country {c |}
+{space 8}AUS  {c |}{col 14}{res}{space 2} 12.56211{col 26}{space 2}  1.67798{col 37}{space 1}    7.49{col 46}{space 3}0.000{col 54}{space 4} 9.265001{col 67}{space 3} 15.85922
+{txt}{space 8}AUT  {c |}{col 14}{res}{space 2} 11.28382{col 26}{space 2} 1.706487{col 37}{space 1}    6.61{col 46}{space 3}0.000{col 54}{space 4} 7.930694{col 67}{space 3} 14.63694
+{txt}{space 8}BEL  {c |}{col 14}{res}{space 2} 22.87526{col 26}{space 2} 1.718014{col 37}{space 1}   13.31{col 46}{space 3}0.000{col 54}{space 4} 19.49949{col 67}{space 3} 26.25104
+{txt}{space 8}DNK  {c |}{col 14}{res}{space 2} 16.19102{col 26}{space 2} 1.667809{col 37}{space 1}    9.71{col 46}{space 3}0.000{col 54}{space 4} 12.91389{col 67}{space 3} 19.46815
+{txt}{space 8}ESP  {c |}{col 14}{res}{space 2} 24.18952{col 26}{space 2}  1.80157{col 37}{space 1}   13.43{col 46}{space 3}0.000{col 54}{space 4} 20.64956{col 67}{space 3} 27.72948
+{txt}{space 8}FRA  {c |}{col 14}{res}{space 2} 17.67553{col 26}{space 2}  1.71215{col 37}{space 1}   10.32{col 46}{space 3}0.000{col 54}{space 4} 14.31127{col 67}{space 3} 21.03978
+{txt}{space 8}GRC  {c |}{col 14}{res}{space 2} 33.99568{col 26}{space 2} 1.856587{col 37}{space 1}   18.31{col 46}{space 3}0.000{col 54}{space 4} 30.34762{col 67}{space 3} 37.64374
+{txt}{space 8}IRL  {c |}{col 14}{res}{space 2} 17.00128{col 26}{space 2} 1.762336{col 37}{space 1}    9.65{col 46}{space 3}0.000{col 54}{space 4} 13.53841{col 67}{space 3} 20.46414
+{txt}{space 8}ITA  {c |}{col 14}{res}{space 2} 12.60039{col 26}{space 2}  1.70758{col 37}{space 1}    7.38{col 46}{space 3}0.000{col 54}{space 4} 9.245115{col 67}{space 3} 15.95566
+{txt}{space 8}JPN  {c |}{col 14}{res}{space 2} 22.77473{col 26}{space 2} 1.750954{col 37}{space 1}   13.01{col 46}{space 3}0.000{col 54}{space 4} 19.33422{col 67}{space 3} 26.21523
+{txt}{space 8}NLD  {c |}{col 14}{res}{space 2} 14.99842{col 26}{space 2} 1.679596{col 37}{space 1}    8.93{col 46}{space 3}0.000{col 54}{space 4} 11.69814{col 67}{space 3} 18.29871
+{txt}{space 8}SWE  {c |}{col 14}{res}{space 2} 21.62256{col 26}{space 2} 1.696536{col 37}{space 1}   12.75{col 46}{space 3}0.000{col 54}{space 4} 18.28899{col 67}{space 3} 24.95614
+{txt}{space 9}UK  {c |}{col 14}{res}{space 2} 22.04985{col 26}{space 2} 1.760242{col 37}{space 1}   12.53{col 46}{space 3}0.000{col 54}{space 4}  18.5911{col 67}{space 3}  25.5086
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} -408.485{col 26}{space 2} 13.81455{col 37}{space 1}  -29.57{col 46}{space 3}0.000{col 54}{space 4}-435.6296{col 67}{space 3}-381.3404
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. reg P_chain_relative log_gdp_pc 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       494
+{txt}{hline 13}{c +}{hline 34}   F(1, 492)       = {res}   540.09
+{txt}       Model {c |} {res} 46339.3092         1  46339.3092   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  42213.372       492  85.7995365   {txt}R-squared       ={res}    0.5233
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5223
+{txt}       Total {c |} {res} 88552.6811       493  179.620043   {txt}Root MSE        =   {res} 9.2628
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}P_chain_re~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}log_gdp_pc {c |}{col 14}{res}{space 2} 35.06057{col 26}{space 2} 1.508644{col 37}{space 1}   23.24{col 46}{space 3}0.000{col 54}{space 4} 32.09639{col 67}{space 3} 38.02475
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-263.9979{col 26}{space 2} 15.37013{col 37}{space 1}  -17.18{col 46}{space 3}0.000{col 54}{space 4}-294.1971{col 67}{space 3}-233.7987
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. reg P_chain_relative ib15.country
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       530
+{txt}{hline 13}{c +}{hline 34}   F(14, 515)      = {res}     4.23
+{txt}       Model {c |} {res} 9512.73431        14  679.481022   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 82735.7881       515  160.652016   {txt}R-squared       ={res}    0.1031
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0787
+{txt}       Total {c |} {res} 92248.5224       529   174.38284   {txt}Root MSE        =   {res} 12.675
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}P_chain_re~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}country {c |}
+{space 8}AUS  {c |}{col 14}{res}{space 2} 3.182276{col 26}{space 2} 3.162638{col 37}{space 1}    1.01{col 46}{space 3}0.315{col 54}{space 4}-3.030983{col 67}{space 3} 9.395535
+{txt}{space 8}AUT  {c |}{col 14}{res}{space 2}-3.376526{col 26}{space 2} 3.162638{col 37}{space 1}   -1.07{col 46}{space 3}0.286{col 54}{space 4}-9.589785{col 67}{space 3} 2.836733
+{txt}{space 8}BEL  {c |}{col 14}{res}{space 2} 6.539298{col 26}{space 2} 3.162638{col 37}{space 1}    2.07{col 46}{space 3}0.039{col 54}{space 4} .3260394{col 67}{space 3} 12.75256
+{txt}{space 8}DNK  {c |}{col 14}{res}{space 2}  9.61765{col 26}{space 2} 3.162638{col 37}{space 1}    3.04{col 46}{space 3}0.002{col 54}{space 4} 3.404391{col 67}{space 3} 15.83091
+{txt}{space 8}ESP  {c |}{col 14}{res}{space 2}-1.380066{col 26}{space 2} 3.162638{col 37}{space 1}   -0.44{col 46}{space 3}0.663{col 54}{space 4}-7.593325{col 67}{space 3} 4.833193
+{txt}{space 8}FRA  {c |}{col 14}{res}{space 2} 2.170757{col 26}{space 2} 3.162638{col 37}{space 1}    0.69{col 46}{space 3}0.493{col 54}{space 4}-4.042502{col 67}{space 3} 8.384016
+{txt}{space 8}GER  {c |}{col 14}{res}{space 2} 4.878371{col 26}{space 2} 3.162638{col 37}{space 1}    1.54{col 46}{space 3}0.124{col 54}{space 4}-1.334888{col 67}{space 3} 11.09163
+{txt}{space 8}GRC  {c |}{col 14}{res}{space 2} 3.687143{col 26}{space 2} 3.162638{col 37}{space 1}    1.17{col 46}{space 3}0.244{col 54}{space 4}-2.526116{col 67}{space 3} 9.900402
+{txt}{space 8}IRL  {c |}{col 14}{res}{space 2}-4.674178{col 26}{space 2} 3.162638{col 37}{space 1}   -1.48{col 46}{space 3}0.140{col 54}{space 4}-10.88744{col 67}{space 3} 1.539081
+{txt}{space 8}ITA  {c |}{col 14}{res}{space 2} -2.22655{col 26}{space 2} 3.162638{col 37}{space 1}   -0.70{col 46}{space 3}0.482{col 54}{space 4}-8.439809{col 67}{space 3} 3.986709
+{txt}{space 8}JPN  {c |}{col 14}{res}{space 2} 6.327089{col 26}{space 2} 3.226138{col 37}{space 1}    1.96{col 46}{space 3}0.050{col 54}{space 4}-.0109205{col 67}{space 3}  12.6651
+{txt}{space 8}NLD  {c |}{col 14}{res}{space 2} 5.245445{col 26}{space 2} 3.162638{col 37}{space 1}    1.66{col 46}{space 3}0.098{col 54}{space 4} -.967814{col 67}{space 3}  11.4587
+{txt}{space 8}SWE  {c |}{col 14}{res}{space 2} 8.569973{col 26}{space 2} 3.162638{col 37}{space 1}    2.71{col 46}{space 3}0.007{col 54}{space 4} 2.356714{col 67}{space 3} 14.78323
+{txt}{space 9}UK  {c |}{col 14}{res}{space 2} .5993994{col 26}{space 2} 3.162638{col 37}{space 1}    0.19{col 46}{space 3}0.850{col 54}{space 4} -5.61386{col 67}{space 3} 6.812658
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 90.60955{col 26}{space 2} 2.353662{col 37}{space 1}   38.50{col 46}{space 3}0.000{col 54}{space 4} 85.98559{col 67}{space 3} 95.23351
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *-------------------------------------------------------------------------------
+. 
+. *  R2 of Regressions With and Without Fixed Effects: Summary
+. 
+. ** With FE and log GDP per capita the R2 is: 0.7612
+. ** With FE only                   the R2 is: 0.1031
+. ** With log GDP per capita only   the R2 is: 0.5233
+. 
+. *-------------------------------------------------------------------------------
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\lezjv\Dropbox\BKR\Nacho\Data_Appendix\REStud\Figures1&2\Figure2\Figure2.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}14 Dec 2020, 18:51:45
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
