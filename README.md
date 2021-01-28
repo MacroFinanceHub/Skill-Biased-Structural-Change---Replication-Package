@@ -367,8 +367,12 @@ The exercise requires data from two tables, the Industry-by-Commodity Total Requ
 # References
 
 > Dale W. Jorgenson, Mun S. Ho, and Jon Samuels, “A Prototype Industry‐Level Production Account for the United States, 1947‐2010,” Second World KLEMS Conference, Harvard University, August 9, 2012.
+
 > Kirsten Jäger (The Conference Board) EU KLEMS Growth and Productivity Accounts 2017 release - Description of Methodology and General Notes, September 2017, Revised July 2018
+
 > Bart van Ark and Kirsten Jäger (2017), Recent Trends in Europe's Output and Productivity Growth Performance at the Sector Level, 2002-2015, International Productivity Monitor, Number 33, Fall 2017
+
 > Feenstra, Robert C., I. R. and M. P. Timmer (2015): “The Next Generation of the Penn World Table,” American Economic Review, 105, 3150–3182.
+
 >Herrendorf, B., R. Rogerson, and A. Valentinyi(2013): “Two Perspectiveson Preferences and Structural Transformation,”American Economic Review, 103,2752–89.
 
