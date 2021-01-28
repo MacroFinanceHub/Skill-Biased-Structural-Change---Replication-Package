@@ -1,10 +1,6 @@
-# Skill-Biased Structural Change - Replication File
+# Skill-Biased Structural Change - Replication Package
 
-This readme file describes the structure of the directories of the package
-containing the data and code needed to replicate the results in “Skill-biased Structural Change”. When necessary, readme files within the subdirectories provide additional information about
-the individual files and procedures used (we reproduce the information in these additional readme files below).
-
-## Main Folder: REStud
+This readme file describes the structure of the directories of the replication package containing the data and code needed to replicate the results in "Skill-Biased Structural Change". When necessary, readme files within the subdirectories provide additional information about the individual files and procedures used (we reproduce the information in these additional readme files below).
 
 ---
 
