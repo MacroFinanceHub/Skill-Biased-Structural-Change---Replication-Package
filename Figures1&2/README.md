@@ -1,5 +1,5 @@
 ## Figures1&2
-This folder contains the files needed to produce Figure 1 in section 2.3 and Figure 2 in section 2.4 of the paper. Each subfolder contains the corresponding *.do* file needed to produce the figure. They take as inputs files contained in the folders called *excel_files* and/or *dta_files*.
+This folder contains the files needed to produce Figure 1 in section 2.3 and Figure 2 in section 2.4 of the paper. Each subfolder contains the corresponding *.do* file needed to produce the corresponding figure. They take as inputs files contained in the folders called *excel_files* and/or *dta_files*.
 
 ### Subfolder: Figure 1
 
