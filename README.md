@@ -4,7 +4,7 @@
 This readme file describes the structure of the directories of the replication package containing the data and code needed to replicate the results in "Skill-Biased Structural Change". When necessary, readme files within the subdirectories provide additional information about the individual files and procedures used.  
 
 ---
-# The Replication Package 
+# The Replication Package Files 
 
 ## Bridging_WorldKLEMS
 
