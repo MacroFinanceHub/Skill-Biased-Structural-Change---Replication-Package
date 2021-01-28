@@ -317,7 +317,7 @@ In this subfolder, we perform a series of shift-share analyses using EUKLEMS dat
     
     This *.do* file also produces two auxiliary *.dta* files that are required to compute the between-industry demand shift contribution to the total change in demand of high-skill workers: *eff_KM_BKRV_1977_2005.dta* and *wage_premiums.dta*. These files have the data to compute the log change in the relative supply of skills under the KM and the BKRV measure and the log change in the skill-premium, which are presented in rows (ii) and (iii), respectively, of columns I, J,O, and P.
 ---
-# Data Availability Statement:
+# Data Availability Statement
 
 ## 1. World KLEMS, United States, Labor File, April 2013 Release
 These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_labour.xlsx .
@@ -367,12 +367,8 @@ The exercise requires data from two tables, the Industry-by-Commodity Total Requ
 # References
 
 > Dale W. Jorgenson, Mun S. Ho, and Jon Samuels, “A Prototype Industry‐Level Production Account for the United States, 1947‐2010,” Second World KLEMS Conference, Harvard University, August 9, 2012.
-
 > Kirsten Jäger (The Conference Board) EU KLEMS Growth and Productivity Accounts 2017 release - Description of Methodology and General Notes, September 2017, Revised July 2018
-
 > Bart van Ark and Kirsten Jäger (2017), Recent Trends in Europe's Output and Productivity Growth Performance at the Sector Level, 2002-2015, International Productivity Monitor, Number 33, Fall 2017
-
 > Feenstra, Robert C., I. R. and M. P. Timmer (2015): “The Next Generation of the Penn World Table,” American Economic Review, 105, 3150–3182.
-
 >Herrendorf, B., R. Rogerson, and A. Valentinyi(2013): “Two Perspectiveson Preferences and Structural Transformation,”American Economic Review, 103,2752–89.
 
