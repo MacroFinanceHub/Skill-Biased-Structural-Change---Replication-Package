@@ -33,11 +33,8 @@ This folder contains the files used to *bridge* or produce consistent time serie
         * *dta_files/comp_bridged.dta* -> a .dta file containing the bridged time series for compensation.
         * *Figures/Comp_bridged.pdf* and *Figures/Comp_raw.pdf* -> two figures containing the bridged and raw time series for compensation aggregated at the ecucational attainment level.  
 
-The *bridged* files are intermediate inputs that we use in the following folders:
-* Data for Calibration
-* Shift_Share_KM_Methodology - World KLEMS
-* Ex 3
-
+The *bridged* files serve as intermediate inputs for the exercises carried out in the followong folders **Data for Calibration**
+**Shift_Share_KM_Methodology - World KLEMS**.
 
 ---
 ## Table1 - PRELIMINARY; CODE HASN'T BEEN CHECKED OR EDITED
