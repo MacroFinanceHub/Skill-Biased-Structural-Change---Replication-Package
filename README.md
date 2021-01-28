@@ -155,7 +155,7 @@ This folder contains the files needed to produce the results in Section 8 of the
 ---
 
 ## Sensitivity
-This folder contains the files for the sensitivity exercises carried out in Section 7 of the paper. In particular, we provide the workfiles for Subsections 7.1 and 7.2.
+This folder contains the files for the sensitivity exercises carried out in Section 7 of the paper. In particular, we here provide the workfiles for the exercises carried out in Subsections 7.1 and 7.2.
 
 ### Subfolder: Consumption_Investment_VA
 This folder contains the files used to carry out the sensitivity analysis in Section 7.1 of the paper, called "Consumption Value Added vs Investment Value Added". 
