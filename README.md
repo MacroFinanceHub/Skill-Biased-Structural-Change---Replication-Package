@@ -2,53 +2,6 @@
 ## Francisco Buera, Joseph Kaboski, Richard Rogerson, and Juan Ignacio Vizcaino
 
 This readme file describes the structure of the directories of the replication package containing the data and code needed to replicate the results in "Skill-Biased Structural Change". When necessary, readme files within the subdirectories provide additional information about the individual files and procedures used (we reproduce the information in these additional readme files below).
-
----
-# Data Availability Statement:
-
-## 1. World KLEMS, United States, Labor File, April 2013 Release
-These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_labour.xlsx .
-We use them in section 2.2 to compute the share of high-skill labor in total compensation by industry and year, the average share of high skill labor compensation in total compensation for the period of 1977 to 2005, and the average industry rank in terms of skill intensity for the period of 1977 to 2005. The average shares of high-skill labor in total compensation and the corresponding average ranks are used to determine which industries belong to the high-skill sector in the papers. The highest shares and ranking are discussed in Section 2.2 of the paper. A detailed Table with average high-skill labor shares and ranks under different employment measures can be found in Section 2 of the Online Appendix.
-
-## 2. World KLEMS, United States, Labor File, April 2013 Release
-These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_basic.xlsx .
-
-## 3. EUKLEMS database,  Basic File, November 2009 release. 
-These data are publicly available at http://www.euklems.net/euk09I.shtml .
-Fourteen (14) Countries Used: Australia (AUS), Austria (AUT), Belgium (BEL), Denmark (DNK), Spain (ESP), France (FRA), United Kingdom (UK), Germany (GER), Greece (GRC), Ireland (IRL), Italy(ITA), Japan(JPN), Sweden (SWE), United States-NAICS(USA NAICS)
-These data are used to produce Figure 1 in Section 2.3 of the paper using the .do file Figure1.do and the two alternative versions of Figure 1 using two broader definitions of the High-Skill sector presented in Section 2 of the Online Appendix.
-
-## 4. EUKLEMS database, Labor Input Files, March 2008 release. 
-These data are publicly available at http://www.euklems.net/euk08I.shtml .
-These data are used to produce the data used in the Cross Country Analysis in Section 8 of the paper. In particular, labor input data is used to compute the share of compensation of high-skill labor in the high- and the low-skill sector and the skill-premium, which are used as inputs in the calibration of the technology paramaters for eleven (11) countries in the Cross Country validation exercise performed in Section 8. The countries used in this exercise are Australia (AUS), Austria (AUT), Belgium (BEL), Denmark (DNK), Spain (ESP), United Kingdom (UK), Germany (GER), Italy(ITA), Japan(JPN), the Netherlands (NLD), and United States-NAICS(USA NAICS). Compared to the countries in figure1 and figure2, we loose France, Greece, Ireland, Luxembourg and Sweden beacuse they do not have a labor input file available.
-
-## 5. Penn World Tables 9.0 
-The data are described in Feenstra et al. (2015) and are publicly available at https://www.rug.nl/ggdc/productivity/pwt/pwt-releases/pwt9.0 . Cross-country data from this dataset on real GDP (rgdpna) and population (pop) are used in the .do files Figure1.do and Figure2.do to produce Figures 1 and 2.
-
-## 6. US Bureau of Economic Analysis, Table 1.1.5, Gross Domestic Product
-The Excel spreadsheet containing Annual series for US GDP is in Table 1.1.5 an publicly available at https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=2# . We use this data to compute net good and net service exports as percentage of GDP to perform the sensitivity analysis in Section 7.2 of the paper called "Allowing for Trade".
-
-## 7. US Census Data, U.S. Trade in Goods and Services, Balance of Payment Basis 
-Annual data on goods and services exports and imports and the corresponding trade balance is publicly available at the US Census' Website at the link https://www.census.gov/foreign-trade/statistics/historical/gands.pdf . We use this data to compute net good and net service exports as percentage of GDP to perform the sensitivity analysis in Section 7.2 of the paper called "Allowing for Trade".
-
-## 8. US Bureau of Economic Analysis, Table 2.1, U.S. Trade in Services, by Type of Services
-Annual data on services exports and imports by type of services are publicly available at the BEA's website (https://apps.bea.gov/iTable/iTable.cfm?reqid=62&step=6&isuri=1&tablelist=245&product=4). This data is available since 1999. We use it to check if services exports are close to the actual exports of the high skill sector for the period where both series are available (1977-2005). It turns out that services net exports are very close to the net exports of the high-skill sector. 
-
-## 9. US Input-Output Data
-The excercise requires data from two tables, the Industry-by-Commodity Total Requirements table, and the use Use of Commodities by Industries table. In both cases we use data *After Redefinitions* and at *Producer's Prices*. The data used for each year together at publicly available at the the links in the table below.
-
-
-| Year | Industry-by-Commodity Total Requirements     | Use of Commodities by Industries |
-| ---  | ---                                          | ---                              |
-| 2005 | [IxC Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=52&step=102&isuri=1&table_list=8&aggregation=sum) | [CxI Use Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=58&step=102&isuri=1&table_list=6&aggregation=sum) |
-| 2002 | [IxC Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=52&step=102&isuri=1&table_list=8&aggregation=sum) | [CxI Use Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=58&step=102&isuri=1&table_list=6&aggregation=sum) |
-| 1997 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0305.zip) |
-| 1992 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0180.zip) |
-| 1987 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0019.zip) |
-| 1982 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0125.zip) |
-| 1977 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/77IO85-levelexcel.zip) |
-|      |                                       |                              |
-
 ---
 ## Bridging_WorldKLEMS
 
@@ -354,6 +307,53 @@ In this subfolder we perform a series of shift-share analyses using EUKLEMS data
     * *log_Delta_Xd_VA_KM:* measuring employment in BKRV efficiency units and using value added at fixed prices as a measure of sector size (KM Value Added). his results is presented in row (i) of Column P in Table 3 of the Online Appendix.
     
     This *.do* file also produces two auxiliary *.dta* files that are required to compute the between-industry demand shift contribution to the total change in demand of high-skill workers: *eff_KM_BKRV_1977_2005.dta* and *wage_premiums.dta*. These files have the data to compute the log change in the relative supply of skills under the KM and the BKRV measure and the log change in the skill-premium, which are presented in rows (ii) and (iii), respectively, of columns I,J,O, and P.
+---
+# Data Availability Statement:
+
+## 1. World KLEMS, United States, Labor File, April 2013 Release
+These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_labour.xlsx .
+We use them in section 2.2 to compute the share of high-skill labor in total compensation by industry and year, the average share of high skill labor compensation in total compensation for the period of 1977 to 2005, and the average industry rank in terms of skill intensity for the period of 1977 to 2005. The average shares of high-skill labor in total compensation and the corresponding average ranks are used to determine which industries belong to the high-skill sector in the papers. The highest shares and ranking are discussed in Section 2.2 of the paper. A detailed Table with average high-skill labor shares and ranks under different employment measures can be found in Section 2 of the Online Appendix.
+
+## 2. World KLEMS, United States, Labor File, April 2013 Release
+These data are publicly available at http://www.worldklems.net/data/input/usa_wk_apr_2013_basic.xlsx .
+
+## 3. EUKLEMS database,  Basic File, November 2009 release. 
+These data are publicly available at http://www.euklems.net/euk09I.shtml .
+Fourteen (14) Countries Used: Australia (AUS), Austria (AUT), Belgium (BEL), Denmark (DNK), Spain (ESP), France (FRA), United Kingdom (UK), Germany (GER), Greece (GRC), Ireland (IRL), Italy(ITA), Japan(JPN), Sweden (SWE), United States-NAICS(USA NAICS)
+These data are used to produce Figure 1 in Section 2.3 of the paper using the .do file Figure1.do and the two alternative versions of Figure 1 using two broader definitions of the High-Skill sector presented in Section 2 of the Online Appendix.
+
+## 4. EUKLEMS database, Labor Input Files, March 2008 release. 
+These data are publicly available at http://www.euklems.net/euk08I.shtml .
+These data are used to produce the data used in the Cross Country Analysis in Section 8 of the paper. In particular, labor input data is used to compute the share of compensation of high-skill labor in the high- and the low-skill sector and the skill-premium, which are used as inputs in the calibration of the technology paramaters for eleven (11) countries in the Cross Country validation exercise performed in Section 8. The countries used in this exercise are Australia (AUS), Austria (AUT), Belgium (BEL), Denmark (DNK), Spain (ESP), United Kingdom (UK), Germany (GER), Italy(ITA), Japan(JPN), the Netherlands (NLD), and United States-NAICS(USA NAICS). Compared to the countries in figure1 and figure2, we loose France, Greece, Ireland, Luxembourg and Sweden beacuse they do not have a labor input file available.
+
+## 5. Penn World Tables 9.0 
+The data are described in Feenstra et al. (2015) and are publicly available at https://www.rug.nl/ggdc/productivity/pwt/pwt-releases/pwt9.0 . Cross-country data from this dataset on real GDP (rgdpna) and population (pop) are used in the .do files Figure1.do and Figure2.do to produce Figures 1 and 2.
+
+## 6. US Bureau of Economic Analysis, Table 1.1.5, Gross Domestic Product
+The Excel spreadsheet containing Annual series for US GDP is in Table 1.1.5 an publicly available at https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=2# . We use this data to compute net good and net service exports as percentage of GDP to perform the sensitivity analysis in Section 7.2 of the paper called "Allowing for Trade".
+
+## 7. US Census Data, U.S. Trade in Goods and Services, Balance of Payment Basis 
+Annual data on goods and services exports and imports and the corresponding trade balance is publicly available at the US Census' Website at the link https://www.census.gov/foreign-trade/statistics/historical/gands.pdf . We use this data to compute net good and net service exports as percentage of GDP to perform the sensitivity analysis in Section 7.2 of the paper called "Allowing for Trade".
+
+## 8. US Bureau of Economic Analysis, Table 2.1, U.S. Trade in Services, by Type of Services
+Annual data on services exports and imports by type of services are publicly available at the BEA's website (https://apps.bea.gov/iTable/iTable.cfm?reqid=62&step=6&isuri=1&tablelist=245&product=4). This data is available since 1999. We use it to check if services exports are close to the actual exports of the high skill sector for the period where both series are available (1977-2005). It turns out that services net exports are very close to the net exports of the high-skill sector. 
+
+## 9. US Input-Output Data
+The excercise requires data from two tables, the Industry-by-Commodity Total Requirements table, and the use Use of Commodities by Industries table. In both cases we use data *After Redefinitions* and at *Producer's Prices*. The data used for each year together at publicly available at the the links in the table below.
+
+
+| Year | Industry-by-Commodity Total Requirements     | Use of Commodities by Industries |
+| ---  | ---                                          | ---                              |
+| 2005 | [IxC Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=52&step=102&isuri=1&table_list=8&aggregation=sum) | [CxI Use Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=58&step=102&isuri=1&table_list=6&aggregation=sum) |
+| 2002 | [IxC Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=52&step=102&isuri=1&table_list=8&aggregation=sum) | [CxI Use Summary Level Tables 1997-2005](https://apps.bea.gov/iTable/iTable.cfm?reqid=58&step=102&isuri=1&table_list=6&aggregation=sum) |
+| 1997 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0305.zip) |
+| 1992 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0180.zip) |
+| 1987 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0019.zip) |
+| 1982 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/ndn0125.zip) |
+| 1977 | [IxC and CxI Use - Summary Level Tables](https://apps.bea.gov/industry/zip/77IO85-levelexcel.zip) |
+|      |                                       |                              |
+
+
 ---
 # References
 
