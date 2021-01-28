@@ -1,8 +1,11 @@
 # Skill-Biased Structural Change - Replication Package
 ## Francisco Buera, Joseph Kaboski, Richard Rogerson, and Juan Ignacio Vizcaino
 
-This readme file describes the structure of the directories of the replication package containing the data and code needed to replicate the results in "Skill-Biased Structural Change". When necessary, readme files within the subdirectories provide additional information about the individual files and procedures used (we reproduce the information in these additional readme files below).
+This readme file describes the structure of the directories of the replication package containing the data and code needed to replicate the results in "Skill-Biased Structural Change". When necessary, readme files within the subdirectories provide additional information about the individual files and procedures used.  
+
 ---
+# The Replication Package 
+
 ## Bridging_WorldKLEMS
 
 This folder contains the files used to *bridge* or produce consistent time series for labor compensation, hours worked, and employment in the World KLEMS data. The correction is needed to overcome the *discrete jumps* that arise in the data as a consequence of the change in the way the CPS, World KLEMS main data source, started measuring educational attainment in 1992 and classifying industries in 2002.
