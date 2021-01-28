@@ -1,6 +1,6 @@
 ## Bridging_WorldKLEMS
 
-This folder contains the files used to *bridge* or produce consistent time series for labor compensation, hours worked, and employment in the World KLEMS data. The correction is needed to overcome the *discrete jumps* that arise in the data as a consequence of the change in the way the CPS, World KLEMS main data source, started measuring educational attainment in 1992 and classifying industries in 2002.
+This folder contains the files used to *bridge* or produce consistent time series for labor compensation, hours worked, and employment in the World KLEMS data. The correction is needed as a consequence of the changes in the measurement of educational attainment and in industry classification applied by the CPS in 1992 and 2002, respectively. The CPS is the main data source of the World KLEMS.
 
 * **bridging_worldKLEMS_employment.do:** This .do file produces the *bridged* series for total employment.
     * **Inputs:**
